@@ -1,20 +1,25 @@
+import { ThemeProvider } from '@shopify/restyle';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Box, Text } from './src/components/ui';
+import { useBanking } from './src/hooks/useBanking';
+import { HomeScreen } from './src/screens/HomeScreen';
+import { theme } from './src/theme';
 
 export default function App() {
+  const banking = useBanking();
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar style="dark" />
+        {banking.ready ? <HomeScreen banking={banking} /> : (
+          <Box flex={1} backgroundColor="surface" alignItems="center" justifyContent="center" gap="md">
+            <ActivityIndicator color={theme.colors.primary} accessibilityLabel="Carregando início" />
+            <Text color="muted">Carregando…</Text>
+          </Box>
+        )}
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

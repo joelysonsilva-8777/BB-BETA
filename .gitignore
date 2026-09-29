@@ -2,6 +2,9 @@
 
 # dependencies
 node_modules/
+.cache/
+test-results/
+playwright-report/
 
 # Expo
 .expo/
