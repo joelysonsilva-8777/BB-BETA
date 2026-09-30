@@ -18,7 +18,7 @@ function Stats({ inspector }: { inspector: InspectorController }) {
   const items = [
     { label: 'Robôs disponíveis', value: `${inspector.stats.active}/4`, detail: 'aptos a executar' },
     { label: 'Nota média', value: `${inspector.stats.average}`, detail: 'de 100 pontos' },
-    { label: 'Revisões pendentes', value: `${inspector.stats.pending}`, detail: `${inspector.stats.critical} críticas` },
+    { label: 'Revisões pendentes', value: `${inspector.stats.pending}`, detail: `${inspector.stats.critical} ${inspector.stats.critical === 1 ? 'crítica' : 'críticas'}` },
     { label: 'Execuções', value: `${inspector.stats.total}`, detail: 'nesta sessão local' },
   ];
   return <Box flexDirection={width >= 760 ? 'row' : 'column'} gap="sm">

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { createInspector, createReport, inspect, metrics, reduceInspector } from '../src/features/inspector/engine';
+import { createInspector, createReport, inspect, MAX_RUNS, metrics, reduceInspector } from '../src/features/inspector/engine';
 import { restoreInspector } from '../src/features/inspector/storage';
 
 const at = '2026-09-30T12:00:00.000Z';
@@ -70,4 +70,13 @@ test('auditoria detecta divergência e relatório inclui evidências e decisões
   expect(report.policy.version).toBe('POL-2026.1');
   expect(report.runs[0].checks).toHaveLength(6);
   expect(report.auditTrail.at(-1)?.title).toBe('Auditoria da sessão concluída');
+});
+
+test('limite da sessão preserva execuções anteriores e pendências críticas', () => {
+  let state = createInspector(Date.parse(at));
+  while (state.runs.length < MAX_RUNS) state = reduceInspector(state, { type: 'simulate', scenarioId: 'healthy', at });
+  const full = reduceInspector(state, { type: 'simulate', scenarioId: 'healthy', at });
+  expect(full).toBe(state);
+  expect(full.runs).toHaveLength(MAX_RUNS);
+  expect(full.runs.find(run => run.id === 'RUN-0004')).toMatchObject({ decision: 'blocked', review: null });
 });
