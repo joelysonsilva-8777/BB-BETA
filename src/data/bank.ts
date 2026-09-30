@@ -1,4 +1,4 @@
-export type Sheet = 'profile' | 'notifications' | 'statement' | 'pix' | 'payments' | 'transfer' | 'card' | 'investments' | 'services' | 'support' | 'savings' | 'recharge';
+export type Sheet = 'profile' | 'notifications' | 'statement' | 'pix' | 'payments' | 'transfer' | 'card' | 'investments' | 'services' | 'support' | 'savings' | 'recharge' | 'inspector';
 export type Transaction = {
   id: string; name: string; detail: string; amount: number;
   day: 'Hoje' | 'Ontem'; kind: 'pix' | 'purchase' | 'bill' | 'income';

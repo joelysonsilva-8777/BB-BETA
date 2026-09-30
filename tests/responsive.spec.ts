@@ -24,6 +24,16 @@ for (const width of [280, 320, 360, 375, 390, 430]) {
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'Olá, João.' })).toBeVisible();
     await expectContentToFit(page, 'home-scroll');
+    await page.getByRole('button', { name: 'Abrir central de inspeção', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Supervisão, com evidências.' })).toBeVisible();
+    await expectContentToFit(page, 'inspector-scroll');
+    await page.getByRole('button', { name: 'Investigar bloqueio', exact: true }).click();
+    await expectContentToFit(page, 'inspector-scroll');
+    for (const section of ['Robôs', 'Auditoria', 'Regras']) {
+      await page.getByRole('button', { name: `Seção ${section}`, exact: true }).click();
+      await expectContentToFit(page, 'inspector-scroll');
+    }
+    await page.getByRole('button', { name: 'Fechar central de inspeção', exact: true }).click();
 
     for (const [button, heading] of [
       ['Ver fatura', 'Meu Ourocard'],

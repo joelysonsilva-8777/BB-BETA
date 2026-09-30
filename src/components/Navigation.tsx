@@ -8,6 +8,7 @@ const items = [
   { label: 'Início', icon: House, sheet: null },
   { label: 'Extrato', icon: ReceiptText, sheet: 'statement' },
   { label: 'Cartões', icon: CreditCard, sheet: 'card' },
+  { label: 'Inspetor IA', icon: ShieldCheck, sheet: 'inspector' },
   { label: 'Investimentos', icon: ChartNoAxesCombined, sheet: 'investments' },
   { label: 'Todos os serviços', icon: LayoutGrid, sheet: 'services' },
 ] as const;
@@ -49,7 +50,7 @@ export function Sidebar({ onOpen, onHome }: { onOpen: (sheet: Sheet) => void; on
 }
 
 export function BottomBar({ bottomInset, onOpen, onHome }: { bottomInset: number; onOpen: (sheet: Sheet) => void; onHome: () => void }) {
-  const mobileItems = [items[0], items[1], items[2], { label: 'Ajuda', icon: Headphones, sheet: 'support' as const }, { label: 'Menu', icon: LayoutGrid, sheet: 'services' as const }];
+  const mobileItems = [items[0], items[1], items[2], { label: 'Inspetor', icon: ShieldCheck, sheet: 'inspector' as const }, { label: 'Menu', icon: LayoutGrid, sheet: 'services' as const }];
   return (
     <Box backgroundColor="surface" borderTopWidth={1} borderColor="border" paddingHorizontal="xs" style={{ paddingBottom: Math.max(bottomInset, 8) }}>
       <Box flexDirection="row" minHeight={64}>

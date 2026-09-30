@@ -15,10 +15,11 @@ const titles: Record<Sheet, string> = {
   profile: 'Minha conta', notifications: 'Notificações', statement: 'Extrato da conta',
   pix: 'Pix', payments: 'Pagamentos', transfer: 'Transferências', card: 'Meu Ourocard',
   investments: 'Investimentos', services: 'Todos os serviços', support: 'Fale com o BB',
-  savings: 'Meu cofrinho', recharge: 'Recarga de celular',
+  savings: 'Meu cofrinho', recharge: 'Recarga de celular', inspector: 'Inspetor IA',
 };
 
 const services: { title: string; detail: string; icon: LucideIcon; sheet: Sheet }[] = [
+  { title: 'Inspetor IA', detail: 'Supervisão, notas e auditoria de robôs', icon: ShieldCheck, sheet: 'inspector' },
   { title: 'Pix', detail: 'Seus envios e recebimentos', icon: ArrowLeftRight, sheet: 'pix' },
   { title: 'Pagar contas', detail: 'Boletos e agendamentos', icon: Barcode, sheet: 'payments' },
   { title: 'Transferências', detail: 'Movimentações entre contas', icon: ArrowUpRight, sheet: 'transfer' },
@@ -82,7 +83,7 @@ export function ServiceSheet({ banking }: { banking: BankingController }) {
   const contentPadding = width < 390 ? 16 : 24;
   const theme = useTheme<Theme>();
   const { sheet, valuesVisible: visible, openSheet } = banking;
-  if (!sheet) return null;
+  if (!sheet || sheet === 'inspector') return null;
   const amount = (value: number) => visible ? currency(value) : '••••••';
   const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const filteredServices = services.filter(service => normalize(`${service.title} ${service.detail}`).includes(normalize(query)));

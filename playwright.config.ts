@@ -16,8 +16,9 @@ export default defineConfig({
       : undefined,
   },
   projects: [
-    { name: 'desktop', testIgnore: '**/responsive.spec.ts', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 1100 } } },
-    { name: 'mobile', testIgnore: '**/responsive.spec.ts', use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium' } },
+    { name: 'engine', testMatch: '**/inspector-engine.spec.ts' },
+    { name: 'desktop', testIgnore: ['**/responsive.spec.ts', '**/inspector-engine.spec.ts'], use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 1100 } } },
+    { name: 'mobile', testIgnore: ['**/responsive.spec.ts', '**/inspector-engine.spec.ts'], use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium' } },
     { name: 'compact', testMatch: '**/responsive.spec.ts', use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium' } },
   ],
   webServer: {

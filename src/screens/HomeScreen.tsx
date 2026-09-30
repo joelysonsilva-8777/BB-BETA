@@ -10,8 +10,12 @@ import { AccountCard, CreditCard, SavingsCard, SupportCard } from '../components
 import { RecentTransactions } from '../components/Transactions';
 import { BottomBar, Sidebar } from '../components/Navigation';
 import { ServiceSheet } from '../components/ServiceSheet';
+import { useInspector } from '../features/inspector/useInspector';
+import { InspectorSummary } from '../features/inspector/InspectorSummary';
+import { InspectorPanel } from '../features/inspector/InspectorPanel';
 
 export function HomeScreen({ banking }: { banking: BankingController }) {
+  const inspector = useInspector(banking.sheet === 'inspector');
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const scroll = useRef<ScrollView>(null);
@@ -69,6 +73,8 @@ export function HomeScreen({ banking }: { banking: BankingController }) {
 
               {banking.storageError && <Box padding="md" marginBottom="md" backgroundColor="surface"><Text variant="caption" color="danger" accessibilityRole="alert">Não foi possível salvar sua preferência de privacidade neste aparelho.</Text></Box>}
 
+              <InspectorSummary inspector={inspector} onOpen={() => banking.openSheet('inspector')} />
+
               <Box flexDirection={columns ? 'row' : 'column'} alignItems="flex-start" gap={{ phone: 'md', regularPhone: 'lg' }}>
                 <Box minWidth={0} flex={columns ? 1 : undefined} width={columns ? undefined : '100%'}><AccountCard banking={banking} /></Box>
                 <Box width={columns ? 320 : '100%'}><CreditCard banking={banking} /></Box>
@@ -97,6 +103,7 @@ export function HomeScreen({ banking }: { banking: BankingController }) {
         </Box>
       </Box>
       <ServiceSheet key={banking.sheet ?? 'closed'} banking={banking} />
+      {banking.sheet === 'inspector' && <InspectorPanel inspector={inspector} onClose={banking.closeSheet} />}
     </Box>
   );
 }

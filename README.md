@@ -2,6 +2,10 @@
 
 Tela inicial de um aplicativo bancário inspirada na identidade do **Banco do Brasil**. Projeto de interface independente, com dados fictícios. Não é o aplicativo oficial e não se conecta a contas bancárias.
 
+Inclui o **Inspetor IA**, uma central funcional de supervisão simulada de outros robôs: observa execuções, verifica regras, calcula notas explicáveis, suspende agentes com falhas críticas e registra revisões humanas e auditorias. Acesse pelo destaque na página inicial ou pelo menu **Inspetor**.
+
+[Conheça e experimente o Inspetor IA](docs/inspector.md) · [Prévia da central](docs/inspector-mobile.png)
+
 [Prévia no celular](docs/preview-mobile.png) · [Celular de 320 px](docs/preview-mobile-small.png) · [Página completa](docs/preview-mobile-full.png) · [Prévia no desktop](docs/preview-desktop.png)
 
 ## Design
