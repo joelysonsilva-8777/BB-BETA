@@ -1,13 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Modal, ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bot, ChevronDown, CircleAlert, Download, FileCheck2, Pause, Play, ShieldCheck, X } from 'lucide-react-native';
 import { Box, Button, Card, Icon, IconButton, Tap, Text } from '../../components/ui';
 import { BBMark } from '../../components/Brand';
 import { useCompactLayout } from '../../hooks/useCompactLayout';
-import { MAX_RUNS, POLICY, ROBOTS, RULES, SCENARIOS, type RobotId, type ScenarioId } from './engine';
+import { agentMetrics, MAX_RUNS, POLICY, ROBOTS, RULES, SCENARIOS, type RobotId, type ScenarioId } from './engine';
 import type { InspectorController } from './useInspector';
-import { Badge, decisionColor, RunDetail, RunRow, time } from './InspectorParts';
+import { Badge, RunDetail, RunRow, time } from './InspectorParts';
 import { exportReport } from './exportReport';
 
 type Tab = 'overview' | 'robots' | 'audit' | 'rules';
@@ -16,13 +16,27 @@ const tabs: { id: Tab; title: string }[] = [{ id: 'overview', title: 'Visão ger
 function Stats({ inspector }: { inspector: InspectorController }) {
   const { width } = useWindowDimensions();
   const items = [
-    { label: 'Robôs disponíveis', value: `${inspector.stats.active}/4`, detail: 'aptos a executar' },
-    { label: 'Nota média', value: `${inspector.stats.average}`, detail: 'de 100 pontos' },
+    { label: 'Agentes disponíveis', value: `${inspector.stats.active}/${ROBOTS.length}`, detail: 'aptos a executar' },
+    { label: 'Score médio', value: `${inspector.stats.average}`, detail: ROBOTS.some(robot => agentMetrics(inspector.state, robot.id).provisional) ? 'provisório · evidências parciais' : 'dos agentes avaliados' },
     { label: 'Revisões pendentes', value: `${inspector.stats.pending}`, detail: `${inspector.stats.critical} ${inspector.stats.critical === 1 ? 'crítica' : 'críticas'}` },
     { label: 'Execuções', value: `${inspector.stats.total}`, detail: 'nesta sessão local' },
   ];
   return <Box flexDirection={width >= 760 ? 'row' : 'column'} gap="sm">
     {[items.slice(0, 2), items.slice(2)].map((pair, index) => <Box key={index} flex={width >= 760 ? 1 : undefined} minWidth={0} flexDirection="row" gap="sm">{pair.map(item => <Card key={item.label} flex={1} padding="sm" gap="xxs"><Text variant="caption" color="muted">{item.label}</Text><Text variant="heading">{item.value}</Text><Text variant="caption" fontSize={10} color="muted">{item.detail}</Text></Card>)}</Box>)}
+  </Box>;
+}
+
+function AgentScore({ id, inspector }: { id: RobotId; inspector: InspectorController }) {
+  const robot = ROBOTS.find(item => item.id === id)!;
+  const assessment = agentMetrics(inspector.state, id);
+  return <Box gap="sm" testID={`agent-score-${id}`}>
+    <Box flexDirection="row" flexWrap="wrap" alignItems="baseline" gap="sm"><Text variant="title">Score de {robot.name}</Text><Text variant="heading" color="primary">{assessment.score ?? '—'}<Text variant="caption" color="muted"> / 100</Text></Text></Box>
+    <Text variant="caption" color="muted">{assessment.count ? `Média de ${assessment.count} ${assessment.count === 1 ? 'execução' : 'execuções'} · janela de até ${POLICY.agentWindow}.` : 'Sem execuções avaliadas.'} {assessment.provisional ? 'Avaliação provisória.' : ''}</Text>
+    {!!assessment.count && <Box height={70} flexDirection="row" alignItems="flex-end" gap="xxs" accessible accessibilityLabel={`Evolução do score de ${robot.name}: ${assessment.history.map(item => item.score).join(', ')}`}>
+      {assessment.history.slice(-10).map(item => <Box key={item.runId} flex={1} minWidth={0} alignItems="center" gap="xxs"><Box width="100%" maxWidth={28} height={Math.max(3, item.score * 0.45)} backgroundColor="primary" borderTopLeftRadius="sm" borderTopRightRadius="sm" /><Text fontSize={10} color="muted">{item.score}</Text></Box>)}
+    </Box>}
+    <Text variant="caption" color="muted">Evolução da média, da mais antiga à atual. A nota avalia o agente de IA.</Text>
+    {assessment.violations.map(item => <Box key={item.id} gap="xxs"><Text variant="caption" color={item.count >= POLICY.recurrenceThreshold ? 'danger' : 'warning'}>{item.name}: {item.count} {item.count === 1 ? 'ocorrência' : 'ocorrências'}{item.count >= POLICY.recurrenceThreshold ? ' · recorrência' : ' na janela'}.</Text></Box>)}
   </Box>;
 }
 
@@ -37,8 +51,10 @@ function RobotCard({ id, inspector, onSelect }: { id: RobotId; inspector: Inspec
     <Box flexDirection="row" gap="sm" alignItems="center"><Box width={44} height={44} borderRadius="sm" backgroundColor="blueSoft" alignItems="center" justifyContent="center"><Icon icon={Bot} color="primary" /></Box><Box flex={1} minWidth={0}><Text variant="title">{robot.name}</Text><Text variant="caption" color="muted">{robot.role} · v{robot.version}</Text></Box></Box>
     <Badge label={control.paused ? 'Suspenso na simulação' : 'Disponível para executar'} color={control.paused ? 'warning' : 'positive'} />
     <Text variant="caption" color="muted">Responsável: {robot.owner}</Text>
-    <Text variant="caption">Ferramenta permitida: {robot.tools.join(', ')}</Text>
-    <Box flexDirection="row" flexWrap="wrap" gap="md"><Text variant="button">{runs.length} execuções</Text><Text variant="button">{pending.length} pendências</Text></Box>
+    <Text variant="caption">Ferramentas: {robot.tools.map(tool => tool.replaceAll('_', ' ')).join(', ')}</Text>
+    <Text variant="caption" color="muted">Agentes que pode acionar: {robot.delegates.map(targetId => ROBOTS.find(item => item.id === targetId)!.name).join(', ') || 'nenhum'}.</Text>
+    <AgentScore id={id} inspector={inspector} />
+    <Box flexDirection="row" flexWrap="wrap" gap="md"><Text variant="button">{runs.length} {runs.length === 1 ? 'execução' : 'execuções'}</Text><Text variant="button">{pending.length} {pending.length === 1 ? 'pendência' : 'pendências'}</Text></Box>
     {control.reason ? <Text variant="caption" color="warning">{control.reason}</Text> : null}
     {target && <Button label={pending.length ? `Revisar execução de ${robot.name}` : `Ver última execução de ${robot.name}`} secondary onPress={() => onSelect(target.id)} />}
     <Button label={`${control.paused ? 'Retomar' : 'Pausar'} ${robot.name}`} icon={control.paused ? Play : Pause} secondary disabled={control.paused && !!critical} onPress={() => inspector.toggleRobot(id)} />
@@ -84,8 +100,9 @@ export function InspectorPanel({ inspector, onClose }: { inspector: InspectorCon
   const pending = state.runs.filter(run => run.decision !== 'approved' && !run.review);
   const critical = pending.find(run => run.decision === 'blocked');
   const filteredRuns = state.runs.filter(run => filter === 'all' || (filter === 'pending' ? run.decision !== 'approved' && !run.review : run.decision === 'blocked'));
-  const select = (id: string) => { setSelectedId(id); scroll.current?.scrollTo({ y: 0, animated: false }); };
-  const changeTab = (next: Tab) => { setTab(next); setSelectedId(null); setMessage(''); scroll.current?.scrollTo({ y: 0, animated: false }); };
+  const select = (id: string) => setSelectedId(id);
+  const changeTab = (next: Tab) => { setTab(next); setSelectedId(null); setMessage(''); };
+  useEffect(() => { scroll.current?.scrollTo({ y: 0, animated: false }); }, [tab, selectedId]);
   async function download() {
     setExporting(true);
     try { setMessage(await exportReport(state)); }
@@ -95,13 +112,11 @@ export function InspectorPanel({ inspector, onClose }: { inspector: InspectorCon
 
   function overview() {
     return <Box gap="lg">
-      <Box gap="xs"><Badge label="AMBIENTE DE SIMULAÇÃO" /><Text variant="heading" accessibilityRole="header">Supervisão, com evidências.</Text><Text color="muted">Cada robô executa. O inspetor observa, confere e explica o que encontrou.</Text></Box>
+      <Box gap="xs"><Badge label="MVP · CRÉDITO PJ · DADOS FICTÍCIOS" /><Text variant="heading" accessibilityRole="header">Supervisão, com evidências.</Text><Text color="muted">O inspetor avalia os agentes de IA. Cada tentativa, consulta e recusa ajuda a explicar a nota.</Text></Box>
       <Stats inspector={inspector} />
       {critical && <Box padding="md" backgroundColor="warningSoft" borderLeftWidth={3} borderColor="warning" gap="sm"><Box flexDirection="row" gap="xs" alignItems="center"><Icon icon={CircleAlert} color="warning" /><Text variant="subtitle" flex={1}>Há um bloqueio que precisa de você.</Text></Box><Text variant="body" color="muted">{ROBOTS.find(robot => robot.id === critical.robotId)!.name} foi suspenso após uma falha crítica. As evidências já estão organizadas para revisão.</Text><Button label="Investigar bloqueio" secondary onPress={() => select(critical.id)} /></Box>}
       <Box flexDirection={columns ? 'row' : 'column'} gap="lg" alignItems="flex-start">
-        <Box width={columns ? 336 : '100%'} gap="lg"><SimulationLab inspector={inspector} /><Card gap="sm"><Text variant="subtitle">Notas das últimas execuções</Text><Box height={72} flexDirection="row" alignItems="flex-end" gap="xs" accessible accessibilityLabel={`Últimas notas, da mais antiga à mais recente: ${state.runs.slice(0, 10).reverse().map(run => run.score).join(', ')}`}>
-          {state.runs.slice(0, 10).reverse().map(run => <Box key={run.id} flex={1} minWidth={0} alignItems="center" gap="xxs"><Box width="100%" maxWidth={28} height={Math.max(3, run.score * 0.48)} borderTopLeftRadius="sm" borderTopRightRadius="sm" backgroundColor={decisionColor[run.decision]} /><Text fontSize={9} color="muted">{run.score}</Text></Box>)}
-        </Box><Text variant="caption" color="muted">Da mais antiga à mais recente. A cor considera as falhas, além da nota.</Text></Card></Box>
+        <Box width={columns ? 336 : '100%'} gap="lg"><Card gap="md"><AgentScore id="atlas" inspector={inspector} /></Card><SimulationLab inspector={inspector} /><Card gap="sm"><Text variant="subtitle">O que está sendo observado?</Text><Text variant="caption" color="muted">Operador fictício → Atlas, crédito PJ → gateway de controle → ferramentas ou Nina, jurídico → inspetor.</Text><Text variant="caption" color="muted">Cinco regras verificam acesso, menores, consultas em massa, compartilhamento e escopo. O pedido do usuário não recebe nota.</Text></Card></Box>
         <Box flex={columns ? 1 : undefined} width={columns ? undefined : '100%'} minWidth={0}><Card gap="sm">
           <Box gap="xxs"><Text variant="title" accessibilityRole="header">Execuções observadas</Text><Text variant="caption" color="muted">Selecione uma execução para ver evidências, nota e recomendações.</Text></Box>
           <Box flexDirection="row" flexWrap="wrap" gap="xs">{([{ id: 'all', label: 'Todas' }, { id: 'pending', label: 'Pendentes' }, { id: 'blocked', label: 'Bloqueadas' }] as const).map(item => <Tap key={item.id} accessibilityLabel={`Filtrar execuções: ${item.label}`} accessibilityState={{ selected: filter === item.id }} onPress={() => { setFilter(item.id); setRunCount(8); }}><Box minHeight={44} justifyContent="center" paddingHorizontal="sm" borderRadius="sm" backgroundColor={filter === item.id ? 'primary' : 'surfaceSoft'}><Text variant="button" color={filter === item.id ? 'onPrimary' : 'text'}>{item.label}</Text></Box></Tap>)}</Box>
@@ -115,7 +130,7 @@ export function InspectorPanel({ inspector, onClose }: { inspector: InspectorCon
 
   function robots() {
     return <Box gap="lg"><Box gap="xs"><Text variant="heading" accessibilityRole="header">Robôs sob supervisão</Text><Text color="muted">Escopo, responsável e estado de cada agente. Pausas e retomadas ficam registradas.</Text></Box>
-      <Box flexDirection={columns ? 'row' : 'column'} gap="lg">{[ROBOTS.slice(0, 2), ROBOTS.slice(2)].map((pair, index) => <Box key={index} flex={columns ? 1 : undefined} minWidth={0} gap="lg">{pair.map(robot => <RobotCard key={robot.id} id={robot.id} inspector={inspector} onSelect={select} />)}</Box>)}</Box>
+      <Box flexDirection={columns ? 'row' : 'column'} gap="lg">{ROBOTS.map(robot => <Box key={robot.id} flex={columns ? 1 : undefined} minWidth={0}><RobotCard id={robot.id} inspector={inspector} onSelect={select} /></Box>)}</Box>
     </Box>;
   }
 
@@ -130,12 +145,12 @@ export function InspectorPanel({ inspector, onClose }: { inspector: InspectorCon
   function rules() {
     return <Box gap="lg"><Box gap="xs"><Text variant="heading" accessibilityRole="header">Como o inspetor decide</Text><Text color="muted">Regras transparentes, evidência por critério e decisão rastreável.</Text><Badge label={POLICY.version} /></Box>
       <Card gap="md"><Text variant="title">As quatro atribuições</Text>{[
-        ['01 · Observar', 'Receber a tarefa, a ferramenta usada, a saída e a telemetria de cada robô.'],
-        ['02 · Verificar', 'Conferir as evidências com o escopo permitido e os limites da política.'],
-        ['03 · Dar nota', 'Somar os pesos dos critérios comprovados. Evidência ausente não recebe pontos e deixa a avaliação provisória.'],
-        ['04 · Auditar', 'Manter resultados e decisões humanas no histórico e recalcular notas para encontrar divergências.'],
+        ['01 · Observar', 'Registrar pedidos, tentativas de acesso, decisões do gateway, consultas, acionamento de agentes e a resposta final.'],
+        ['02 · Verificar', 'Comparar os eventos com cinco regras. Uma tentativa indevida continua sendo uma violação, mesmo se o acesso for impedido.'],
+        ['03 · Dar nota', 'Somar os pesos comprovados por execução e calcular a média das últimas 20 execuções de cada agente. Evidência ausente recebe zero provisório; cada regra desconta no máximo uma vez por execução.'],
+        ['04 · Auditar', 'Recalcular a partir da trilha, manter as decisões humanas e identificar três ou mais execuções com a mesma violação na janela.'],
       ].map(([title, detail]) => <Box key={title} gap="xxs"><Text variant="subtitle">{title}</Text><Text color="muted">{detail}</Text></Box>)}</Card>
-      <Card gap="md"><Text variant="title">Critérios e pesos</Text>{RULES.map(rule => <Box key={rule.id} gap="xs" borderTopWidth={1} borderColor="border" paddingTop="md"><Box flexDirection="row" gap="xs"><Text variant="subtitle" flex={1} minWidth={0}>{rule.name}</Text><Text variant="button" color="primary">{rule.weight} pts</Text></Box><Text color="muted">{rule.description}</Text>{rule.critical && <Badge label="Falha crítica suspende o robô" color="danger" />}</Box>)}</Card>
+      <Card gap="md"><Text variant="title">Critérios e pesos propostos</Text><Text variant="caption" color="muted">Política de demonstração baseada nos casos do relatório. Pesos, limites e janela precisam de validação da equipe. Não equivalem a uma certificação LGPD.</Text>{RULES.map(rule => <Box key={rule.id} gap="xs" borderTopWidth={1} borderColor="border" paddingTop="md"><Box flexDirection="row" gap="xs"><Text variant="subtitle" flex={1} minWidth={0}>{rule.name}</Text><Text variant="button" color="primary">{rule.weight} pts</Text></Box><Text color="muted">{rule.description}</Text><Text variant="caption" color="muted">Referência: {rule.reference}</Text>{rule.critical && <Badge label="Falha crítica suspende o robô" color="danger" />}</Box>)}</Card>
       <Card gap="md" backgroundColor="blueSoft" borderColor="blueSoft"><Text variant="title">Onde entra a pessoa responsável?</Text><Text>Falhas críticas suspendem o robô na simulação. O responsável analisa as evidências, registra uma justificativa e só então pode retomar novas execuções.</Text><Text>A revisão não transforma uma execução bloqueada em aprovada. O resultado original continua no relatório.</Text></Card>
       <Text variant="caption" color="muted">Este protótipo usa cenários sintéticos e validadores determinísticos. Uma versão conectada precisará receber telemetria real, autenticar revisores e controlar a execução no servidor. Nenhum robô externo é monitorado ou bloqueado aqui.</Text>
     </Box>;
@@ -151,7 +166,7 @@ export function InspectorPanel({ inspector, onClose }: { inspector: InspectorCon
           <Box flexDirection="row" flexWrap="wrap" gap="xs" alignItems="center"><Icon icon={ShieldCheck} color="primary" size={16} /><Text variant="caption" color="muted">{inspector.running ? 'Sequência simulada em andamento' : 'Simulação sob seu controle'}</Text><Text variant="caption" color="muted">· {POLICY.version}</Text></Box>
           {inspector.storageError && <Text color="danger" accessibilityRole="alert">{inspector.storageError}</Text>}
           {!!message && <Box padding="md" backgroundColor="blueSoft" borderRadius="sm"><Text accessibilityLiveRegion="polite">{message}</Text></Box>}
-          {!inspector.ready ? <ActivityIndicator accessibilityLabel="Carregando inspeções" /> : selected ? <RunDetail key={selected.id} run={selected} inspector={inspector} onBack={() => { setSelectedId(null); scroll.current?.scrollTo({ y: 0, animated: false }); }} /> : tab === 'overview' ? overview() : tab === 'robots' ? robots() : tab === 'audit' ? audit() : rules()}
+          {!inspector.ready ? <ActivityIndicator accessibilityLabel="Carregando inspeções" /> : selected ? <RunDetail key={selected.id} run={selected} inspector={inspector} onBack={() => setSelectedId(null)} /> : tab === 'overview' ? overview() : tab === 'robots' ? robots() : tab === 'audit' ? audit() : rules()}
           <Box paddingTop="lg" borderTopWidth={1} borderColor="border"><Text variant="caption" fontSize={10} color="muted">BB · Conceito independente. Robôs, dados, custos e ações são simulados.</Text></Box>
         </Box>
       </ScrollView>

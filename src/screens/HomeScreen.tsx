@@ -1,10 +1,11 @@
 import { useRef } from 'react';
+import { router } from 'expo-router';
 import { ScrollView, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Bell, CalendarDays, ChevronRight, Search, ShieldCheck } from 'lucide-react-native';
 import { account } from '../data/bank';
 import type { BankingController } from '../hooks/useBanking';
-import { Box, Icon, IconButton, Tap, Text } from '../components/ui';
+import { Box, Button, Card, Icon, IconButton, Tap, Text } from '../components/ui';
 import { Brand } from '../components/Brand';
 import { AccountCard, CreditCard, SavingsCard, SupportCard } from '../components/BankCards';
 import { RecentTransactions } from '../components/Transactions';
@@ -75,6 +76,12 @@ export function HomeScreen({ banking }: { banking: BankingController }) {
 
               <InspectorSummary inspector={inspector} onOpen={() => banking.openSheet('inspector')} />
 
+              <Card marginBottom="lg" gap="sm">
+                <Text variant="subtitle">Um bot principal, três especialistas</Text>
+                <Text variant="caption" color="muted">Consulte finanças, cadastro e empresa com agentes no servidor. Demonstração com dados fictícios.</Text>
+                <Button label="Conversar com o bot principal" secondary onPress={() => router.push('/assistant')} />
+              </Card>
+
               <Box flexDirection={columns ? 'row' : 'column'} alignItems="flex-start" gap={{ phone: 'md', regularPhone: 'lg' }}>
                 <Box minWidth={0} flex={columns ? 1 : undefined} width={columns ? undefined : '100%'}><AccountCard banking={banking} /></Box>
                 <Box width={columns ? 320 : '100%'}><CreditCard banking={banking} /></Box>
@@ -103,7 +110,7 @@ export function HomeScreen({ banking }: { banking: BankingController }) {
         </Box>
       </Box>
       <ServiceSheet key={banking.sheet ?? 'closed'} banking={banking} />
-      {banking.sheet === 'inspector' && <InspectorPanel inspector={inspector} onClose={banking.closeSheet} />}
+      {banking.sheet === 'inspector' && <InspectorPanel inspector={inspector} onClose={() => { inspector.stop(); banking.closeSheet(); }} />}
     </Box>
   );
 }

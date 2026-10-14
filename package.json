@@ -6,7 +6,10 @@
     "@expo/metro-runtime": "~57.0.16",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@shopify/restyle": "^2.4.5",
-    "expo": "~57.0.25",
+    "expo": "~57.0.28",
+    "expo-constants": "~57.0.21",
+    "expo-linking": "~57.0.12",
+    "expo-router": "~57.0.26",
     "expo-status-bar": "~57.0.1",
     "expo-system-ui": "~57.0.4",
     "lucide-react-native": "^1.48.0",
@@ -14,6 +17,7 @@
     "react-dom": "19.2.3",
     "react-native": "0.86.3",
     "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
     "react-native-svg": "15.15.4",
     "react-native-web": "^0.21.2"
   },
@@ -25,15 +29,21 @@
     "typescript": "~6.0.3"
   },
   "scripts": {
+    "dev": "node scripts/dev.cjs",
+    "dev:web": "node scripts/dev.cjs --web",
+    "server": "node --experimental-strip-types --env-file-if-exists=.env.local server/index.ts",
+    "test:agents": "node --experimental-strip-types --test server/tests/integration.test.ts",
     "start": "node scripts/expo.cjs start",
     "android": "node scripts/expo.cjs start --android",
     "ios": "node scripts/expo.cjs start --ios",
     "web": "node scripts/expo.cjs start --web",
     "typecheck": "tsc --noEmit",
     "lint": "node scripts/expo.cjs lint",
-    "check": "npm run typecheck && npm run lint",
+    "lint:server": "eslint server scripts/dev.cjs tests/assistant.spec.ts App.tsx index.ts",
+    "check": "npm run typecheck && npm run lint && npm run lint:server",
     "export:web": "node scripts/expo.cjs export --platform web",
-    "test:e2e": "playwright test"
+    "test:e2e": "node scripts/playwright.cjs test",
+    "test:engine": "node scripts/playwright.cjs test --config=playwright.engine.config.ts"
   },
   "engines": {
     "node": ">=22.13.0"

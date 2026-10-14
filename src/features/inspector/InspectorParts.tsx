@@ -4,8 +4,9 @@ import { useTheme } from '@shopify/restyle';
 import { ArrowLeft, Check, ChevronRight, CircleAlert, FileCheck2, ShieldAlert } from 'lucide-react-native';
 import { Box, Button, Card, Icon, Tap, Text } from '../../components/ui';
 import type { Color, Theme } from '../../theme';
-import { ROBOTS, RULES, type Decision, type Run } from './engine';
+import { agentMetrics, POLICY, ROBOTS, RULES, type Decision, type Run } from './engine';
 import type { InspectorController } from './useInspector';
+import { TraceTimeline } from './TraceTimeline';
 
 export const time = (at: string) => new Date(at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 export const decisionName: Record<Decision, string> = { approved: 'Aprovada', review: 'Revisão necessária', blocked: 'Bloqueada' };
@@ -38,14 +39,30 @@ export function RunDetail({ run, inspector, onBack }: { run: Run; inspector: Ins
   const robot = ROBOTS.find(item => item.id === run.robotId)!;
   const blocking = inspector.state.runs.some(item => item.robotId === run.robotId && item.decision === 'blocked' && !item.review);
   const paused = inspector.state.robots[run.robotId].paused;
+  const assessment = agentMetrics(inspector.state, run.robotId);
+  const attempted = run.trace.filter(event => event.kind === 'operation.requested').length;
+  const executed = run.trace.filter(event => event.kind === 'tool.completed' || event.kind === 'agent.returned').length;
+  const refused = run.trace.some(event => event.kind === 'response.produced' && event.outcome === 'refusal');
   return (
     <Box gap="lg" testID="inspection-detail">
       <Tap accessibilityLabel="Voltar à central" onPress={onBack}><Box flexDirection="row" gap="xs" minHeight={44} alignItems="center"><Icon icon={ArrowLeft} color="primary" size={18} /><Text variant="button" color="primary">Voltar à central</Text></Box></Tap>
       <Box gap="xs"><Text variant="eyebrow" color="muted">{run.id} · {robot.name.toUpperCase()}</Text><Text variant="heading" accessibilityRole="header">Relatório de inspeção</Text><Text color="muted">{run.task}</Text><Badge label={decisionName[run.decision]} color={decisionColor[run.decision]} /></Box>
       <Card gap="md">
         <Box flexDirection="row" flexWrap="wrap" alignItems="baseline" gap="sm"><Text variant="balance" color={decisionColor[run.decision]} testID="run-score">{run.score}<Text variant="title" color="muted"> / 100</Text></Text><Text variant="caption" color="muted">{run.coverage < 100 ? 'Nota provisória' : 'Nota calculada'}</Text></Box>
-        <Text variant="caption" color="muted">Cobertura das evidências: {run.coverage}% dos pesos. Uma falha crítica bloqueia a execução, mesmo com nota alta.</Text>
+        <Text variant="caption" color="muted">Nota desta execução do agente, não do cliente. Cobertura: {run.coverage}% dos pesos. Uma tentativa indevida já reduz a nota, mesmo quando o gateway impede o acesso.</Text>
         <Box flexDirection="row" flexWrap="wrap" gap="sm"><Text variant="caption">{run.durationMs === null ? 'Tempo não informado' : `${run.durationMs} ms`}</Text><Text variant="caption">{run.costCents === null ? 'Custo não informado' : `R$ ${(run.costCents / 100).toFixed(2).replace('.', ',')} · fictício`}</Text><Text variant="caption">{time(run.at)}</Text></Box>
+      </Card>
+      <Card gap="sm" backgroundColor="blueSoft" borderColor="blueSoft">
+        <Text variant="subtitle">Score atual de {robot.name}: {assessment.score ?? '—'}/100</Text>
+        <Text variant="caption" color="muted">Média de {assessment.count} execuções, na janela de até {POLICY.agentWindow}. {assessment.provisional ? 'Provisório: faltam evidências em parte da janela.' : 'Revisões humanas preservam o histórico de notas.'}</Text>
+        {assessment.recurring.map(item => <Text key={item.id} variant="caption" color="danger">Recorrência: {item.name} em {item.count} execuções.</Text>)}
+      </Card>
+      <Card gap="md">
+        <Text variant="title" accessibilityRole="header">Caminho da execução</Text>
+        <Box flexDirection="row" flexWrap="wrap" gap="xs"><Badge label={`${attempted} ${attempted === 1 ? 'tentativa' : 'tentativas'}`} /><Badge label={`${executed} ${executed === 1 ? 'ação executada' : 'ações executadas'}`} /><Badge label={refused ? 'Resposta: recusa' : 'Resposta: conclusão'} /></Box>
+        {refused && <Text color={attempted ? 'warning' : 'positive'}>{attempted ? 'A recusa final não apaga a tentativa de acesso anterior.' : 'O agente recusou antes de consultar. Não houve tentativa de acesso.'}</Text>}
+        {!run.observationComplete && <Box gap="xs"><Badge label="Trilha incompleta" color="warning" />{run.observationIssues.map(issue => <Text key={issue} variant="caption" color="warning">{issue}</Text>)}</Box>}
+        <TraceTimeline events={run.trace} />
       </Card>
       <Card gap="md">
         <Text variant="title" accessibilityRole="header">Por que recebeu essa nota?</Text>
@@ -56,6 +73,7 @@ export function RunDetail({ run, inspector, onBack }: { run: Run; inspector: Ins
             <Box flexDirection="row" gap="xs" alignItems="center"><Icon icon={check.status === 'pass' ? Check : CircleAlert} color={color} size={19} /><Text variant="subtitle" flex={1} minWidth={0}>{rule.name}</Text><Text variant="button" color={color}>{check.status === 'pass' ? rule.weight : 0}/{rule.weight}</Text></Box>
             <Text variant="caption" color={color}>{check.status === 'pass' ? 'Verificado' : check.status === 'unknown' ? 'Sem evidência suficiente' : rule.critical ? 'Falha crítica' : 'Fora do esperado'}</Text>
             <Text variant="body" color="muted">{check.evidence}</Text>
+            <Text variant="caption" color="primary" selectable>Eventos: {check.eventIds.join(', ') || 'não recebidos'}</Text>
             {check.status !== 'pass' && <Box backgroundColor="surfaceSoft" padding="sm" borderRadius="sm"><Text variant="caption">Próximo passo: {check.recommendation}</Text></Box>}
           </Box>;
         })}
@@ -65,7 +83,7 @@ export function RunDetail({ run, inspector, onBack }: { run: Run; inspector: Ins
         <Box gap="xxs"><Text variant="button">Pedido recebido</Text><Text color="muted" selectable>{run.input}</Text></Box>
         <Box gap="xxs"><Text variant="button">Saída observada</Text><Text color="muted" selectable>{run.output}</Text></Box>
         <Box gap="xxs" borderTopWidth={1} borderColor="border" paddingTop="md"><Text variant="caption" selectable>Ferramenta: {run.tool}</Text><Text variant="caption" selectable>Rastreamento: {run.traceId ?? 'não recebido'}</Text><Text variant="caption">Política: {run.policyVersion} · Robô v{robot.version}</Text></Box>
-        <Text variant="caption" color="muted">Evidências sintéticas. As validações usam regras locais; não há análise de robôs externos ou modelo de IA conectado.</Text>
+        <Text variant="caption" color="muted">Dados e autorizações fictícios. Eventos locais correlacionados; não há MCP ou modelo de IA conectado. Tempo e custo são diagnósticos e não compõem esta nota.</Text>
       </Card>
       {run.decision !== 'approved' && <Card gap="md" testID="human-review">
         <Box flexDirection="row" alignItems="center" gap="xs"><Icon icon={FileCheck2} color="primary" /><Text variant="title" flex={1} accessibilityRole="header">Revisão humana</Text></Box>

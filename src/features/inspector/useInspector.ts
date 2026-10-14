@@ -48,12 +48,10 @@ export function useInspector(visible: boolean) {
     return () => clearInterval(timer);
   }, [running, dispatch]);
 
-  // Leaving the inspector always ends automatic playback, including on native.
-  useEffect(() => { if (!visible) setLive(false); }, [visible]);
-
   return {
     state, ready, live, running, stats, storageError,
     toggleLive: () => setLive(value => !value),
+    stop: () => setLive(false),
     simulate: (scenarioId?: ScenarioId) => dispatch({ type: 'simulate', scenarioId, at: new Date().toISOString() }),
     review: (runId: string, note: string) => dispatch({ type: 'review', runId, note, at: new Date().toISOString() }),
     toggleRobot: (robotId: RobotId) => dispatch({ type: 'toggleRobot', robotId, at: new Date().toISOString() }),

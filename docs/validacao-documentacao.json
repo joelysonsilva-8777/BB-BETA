@@ -1,0 +1,13 @@
+{
+  "data": "2026-10-07",
+  "workspace": "F:\\BB-APP",
+  "baseGit": "e0fc675 + alterações locais existentes",
+  "escopo": "Documentação do estado atual; sem alterações ao runtime do aplicativo",
+  "verificacoes": [
+    {"nome": "TypeScript + ESLint", "comando": "npm run check", "resultado": "Aprovado", "detalhe": "Typecheck e lint concluídos com código de saída 0."},
+    {"nome": "Motor independente", "comando": "npm run test:engine", "resultado": "Aprovado", "detalhe": "14 testes aprovados."},
+    {"nome": "Suíte completa", "comando": "npm run test:e2e", "resultado": "38 aprovados; 2 timeouts", "detalhe": "40 casos executados. Dois casos desktop excederam 120 segundos em page.goto antes das assertivas; os outros 38 passaram."},
+    {"nome": "Repetição dos dois casos", "comando": "node scripts/playwright.cjs test tests/home.spec.ts --project=desktop --grep \"início bancário|privacidade\" --workers=1", "resultado": "Aprovado", "detalhe": "Os dois casos desktop passaram na repetição. Todos os 40 casos possuem resultado aprovado entre a rodada principal e esta repetição; a primeira rodada teve 2 timeouts de carregamento."}
+  ],
+  "limites": ["Não houve teste atual em aparelhos Android/iOS físicos.", "Não foram feitos builds assinados, submissão às lojas ou integração com agentes externos.", "Capturas usadas no PDF são artefatos existentes em docs/.", "Registro histórico de 40 testes em 01/10/2026 é distinto desta rodada."]
+}

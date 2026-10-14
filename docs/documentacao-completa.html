@@ -1,0 +1,2086 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Documentação completa · BB Conceito e Inspetor IA</title><style>
+@page { size: A4; }
+* { box-sizing: border-box; }
+html { background: #fff; }
+body { font: 10.5pt/1.53 'Segoe UI', Arial, sans-serif; color: #202A3D; margin: 0; }
+h1,h2,h3,h4 { line-height: 1.23; color: #19376A; break-after: avoid; }
+h1 { font-size: 38pt; letter-spacing: -1.2pt; margin: 21mm 0 9mm; max-width: 145mm; }
+h2 { font-size: 22pt; margin: 0 0 7mm; padding-top: 5mm; border-top: 3px solid #FCFC30; }
+h2.chapter { break-before: page; }
+h3 { font-size: 14pt; margin: 7mm 0 3mm; }
+h4 { font-size: 11.5pt; }
+p { margin: 0 0 3.8mm; orphans: 3; widows: 3; }
+a { color: #304BB2; text-decoration: none; overflow-wrap: anywhere; }
+strong { font-weight: 650; }
+code { font: 8.8pt/1.45 Consolas, monospace; color: #19376A; overflow-wrap: anywhere; }
+pre { background: #F1F3F7; border-left: 3px solid #304BB2; padding: 4mm; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; margin: 5mm 0; }
+pre code { font-size: 8.3pt; }
+table { border-collapse: collapse; width: 100%; margin: 5mm 0; font-size: 9pt; line-height: 1.4; table-layout: auto; }
+thead { display: table-header-group; }
+th { background: #19376A; color: white; text-align: left; font-weight: 600; padding: 2.7mm 2.8mm; }
+td { padding: 2.6mm 2.8mm; border-bottom: 1px solid #E5E8EE; vertical-align: top; overflow-wrap: anywhere; }
+tr:nth-child(even) td { background: #F6F7F9; }
+tr { break-inside: avoid; }
+ul,ol { padding-left: 6mm; margin: 3mm 0 5mm; }
+li { margin-bottom: 2.6mm; orphans: 2; widows: 2; }
+blockquote { border-left: 3px solid #304BB2; margin-left: 0; padding-left: 4mm; color: #647086; }
+.cover { min-height: 247mm; position: relative; break-after: page; padding-top: 8mm; }
+.cover .cover-kicker { color: #304BB2; font-size: 10pt; font-weight: 700; letter-spacing: 1.4pt; }
+.cover h2 { border: 0; padding: 0; font-size: 21pt; margin: 0 0 10mm; }
+.cover p { max-width: 160mm; }
+.cover-mark { width: 26mm; height: 26mm; margin-bottom: 7mm; }
+.cover-note { border-left: 4px solid #FCFC30; background: #F6F7F9; padding: 4mm; margin-top: 6mm; font-size: 9pt; }
+.toc { break-after: page; }
+.toc h2 { border-color: #FCFC30; }
+.toc-list { padding: 0; list-style: none; }
+.toc-list li { margin: 0; border-bottom: 1px solid #E5E8EE; padding: 1.8mm 0; font-size: 9.3pt; line-height: 1.35; break-inside: avoid; }
+.toc-list a { display: flex; justify-content: space-between; align-items: baseline; gap: 6mm; }
+.toc-list .page { flex: none; min-width: 8mm; text-align: right; color: #647086; }
+.diagram { background: #EEF2FC; border: 1px solid #BDCAE4; border-radius: 3mm; padding: 5mm; margin: 6mm 0; break-inside: avoid; }
+.diagram-title { color: #19376A; font-weight: 700; margin-bottom: 4mm; }
+.flow { text-align: center; background: #19376A; color: #fff; padding: 3mm; font-size: 10pt; margin: 2mm 0; }
+.flow-sub { text-align: center; color: #647086; font-size: 9pt; padding: 3mm 0; }
+.diagram-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 3mm 0; }
+.diagram-grid div { background: #fff; padding: 4mm; border-top: 3px solid #304BB2; }
+figure { margin: 8mm 0; text-align: center; break-inside: avoid; }
+figure img { display: block; margin: 0 auto; max-width: 100%; object-fit: contain; border: 1px solid #E5E8EE; }
+.phone-figure img { width: 82mm; max-height: 180mm; }
+.wide-figure img { width: 173mm; max-height: 165mm; }
+figcaption { font-size: 9pt; color: #647086; padding-top: 3mm; }
+.evidence { background: #F6F7F9; padding: 4mm; margin: 5mm 0; border-left: 3px solid #304BB2; break-inside: avoid; }
+.evidence .status { color: #19376A; font-weight: 700; }
+.appendix { font-size: 10pt; line-height: 1.45; }
+.appendix p { margin-bottom: 3.3mm; }
+.appendix h2 { font-size: 17pt; margin-top: 8mm; }
+.appendix h2.chapter { font-size: 22pt; margin-top: 0; }
+.appendix img { max-width: 100%; max-height: 175mm; }
+</style></head><body><section class="cover"><img class="cover-mark" src="../assets/icon.png" alt="Ícone do conceito"><div class="cover-kicker">DOCUMENTAÇÃO DO PROJETO · OUTUBRO DE 2026</div><h1>BB · Conceito e Inspetor IA</h1>
+<h2>Documentação completa do aplicativo</h2>
+<p><strong>Produto, arquitetura, implementação, operação e evolução</strong><br />
+Versão documental 1.0 · 7 de outubro de 2026<br />
+Aplicativo 1.0.0 · Expo SDK 57 · Política PJ-2026.2</p>
+<p>Este documento descreve o projeto localizado em <code>F:\BB-APP</code>, a partir da leitura do código, configurações, testes, imagens e documentos disponíveis. Abrange a interface bancária demonstrativa e o MVP de supervisão de agentes de IA. Destina-se a quem usa, apresenta, desenvolve, avalia ou planeja a evolução do aplicativo.</p>
+<p class="cover-note"><strong>Natureza do produto:</strong> conceito independente inspirado na identidade visual do Banco do Brasil, com dados fictícios. A central executa uma simulação determinística local. Não há conta bancária real, autenticação, modelo de linguagem ou agentes externos conectados.</p>
+<p><strong>Base da análise:</strong> arquivos presentes no workspace em 07/10/2026. O último commit consultado foi <code>e0fc675</code>, de 30/09/2026; existem alterações posteriores ainda não commitadas. Portanto, o documento registra o estado de trabalho, que é mais amplo que esse commit.</p>
+<p><strong>Critério de leitura:</strong> “implementado” indica comportamento localizado no código; “registrado” indica informação existente na documentação ou no histórico; “proposto” indica evolução recomendada, ainda sem aprovação, prazo ou implementação comprovados. As capturas reproduzem imagens existentes em <code>docs/</code>; não comprovam execução em dispositivos físicos.</p></section><section class="toc"><h2>Sumário</h2><p>Capítulos, validação e documentos de apoio. Links internos disponíveis no PDF.</p><ul class="toc-list"><li><a href="#chapter-01"><span>1. Visão geral, propósito e público</span><span class="page">4</span></a></li><li><a href="#chapter-02"><span>2. Escopo e inventário de funcionalidades</span><span class="page">5</span></a></li><li><a href="#chapter-03"><span>3. Como o projeto foi construído e evoluiu</span><span class="page">6</span></a></li><li><a href="#chapter-04"><span>4. Tecnologias e versões</span><span class="page">7</span></a></li><li><a href="#chapter-05"><span>5. Estrutura completa do repositório</span><span class="page">9</span></a></li><li><a href="#chapter-06"><span>6. Arquitetura e fluxo de inicialização</span><span class="page">10</span></a></li><li><a href="#chapter-07"><span>7. Navegação atual e direção técnica</span><span class="page">11</span></a></li><li><a href="#chapter-08"><span>8. Sistema visual, responsividade e acessibilidade</span><span class="page">12</span></a></li><li><a href="#chapter-09"><span>9. Componentes e padrões reutilizáveis</span><span class="page">13</span></a></li><li><a href="#chapter-10"><span>10. Dados bancários, valores e datas</span><span class="page">14</span></a></li><li><a href="#chapter-11"><span>11. Manual de uso da experiência bancária</span><span class="page">15</span></a></li><li><a href="#chapter-12"><span>12. Inspetor IA: objetivos e responsabilidades</span><span class="page">16</span></a></li><li><a href="#chapter-13"><span>13. Agentes, ferramentas e base sintética</span><span class="page">17</span></a></li><li><a href="#chapter-14"><span>14. Contratos de dados: entidades e operações</span><span class="page">18</span></a></li><li><a href="#chapter-15"><span>15. Eventos e rastreabilidade</span><span class="page">19</span></a></li><li><a href="#chapter-16"><span>16. Os dez cenários, detalhe por detalhe</span><span class="page">20</span></a></li><li><a href="#chapter-17"><span>17. Política PJ-2026.2 e cinco controles</span><span class="page">22</span></a></li><li><a href="#chapter-18"><span>18. Fórmulas de nota, cobertura e score do agente</span><span class="page">23</span></a></li><li><a href="#chapter-19"><span>19. Qualidade da observação e ausência de evidência</span><span class="page">24</span></a></li><li><a href="#chapter-20"><span>20. Governança: estados, revisão, suspensão e recorrência</span><span class="page">25</span></a></li><li><a href="#chapter-21"><span>21. Sessão inicial, sequência automática e limites</span><span class="page">26</span></a></li><li><a href="#chapter-22"><span>22. Persistência, restauração e validação</span><span class="page">27</span></a></li><li><a href="#chapter-23"><span>23. Manual de uso do Inspetor e roteiro de apresentação</span><span class="page">28</span></a></li><li><a href="#chapter-24"><span>24. Exportação, auditoria e interpretação do relatório</span><span class="page">29</span></a></li><li><a href="#chapter-25"><span>25. Catálogo técnico de todos os módulos</span><span class="page">30</span></a></li><li><a href="#chapter-26"><span>26. Configurações, assets e ferramentas de desenvolvimento</span><span class="page">32</span></a></li><li><a href="#chapter-27"><span>27. Instalação, execução e comandos</span><span class="page">33</span></a></li><li><a href="#chapter-28"><span>28. Estratégia de testes e validação desta documentação</span><span class="page">35</span></a></li><li><a href="#chapter-29"><span>29. Segurança, privacidade e riscos técnicos reais</span><span class="page">36</span></a></li><li><a href="#chapter-30"><span>30. Performance e compatibilidade multiplataforma</span><span class="page">37</span></a></li><li><a href="#chapter-31"><span>31. Publicação, builds e manutenção operacional</span><span class="page">38</span></a></li><li><a href="#chapter-32"><span>32. Diagnóstico de problemas e uso em demonstração</span><span class="page">39</span></a></li><li><a href="#chapter-33"><span>33. Planejamento existente e decisões em aberto</span><span class="page">40</span></a></li><li><a href="#chapter-34"><span>34. Roadmap proposto, entregáveis e critérios de aceite</span><span class="page">41</span></a></li><li><a href="#chapter-35"><span>35. Backlog detalhado e indicadores futuros</span><span class="page">43</span></a></li><li><a href="#chapter-36"><span>36. Galeria comentada da interface</span><span class="page">44</span></a></li><li><a href="#chapter-37"><span>37. Glossário e referências</span><span class="page">52</span></a></li><li><a href="#chapter-38"><span>38. Evidências e documentos de apoio</span><span class="page">53</span></a></li><li><a href="#evidence"><span>Validação executada em 07/10/2026</span><span class="page">54</span></a></li><li><a href="#appendix-1"><span>Apêndice A · Análise das 17 seções do relatório</span><span class="page">55</span></a></li><li><a href="#appendix-2"><span>Apêndice B · Guia original do MVP de crédito PJ</span><span class="page">61</span></a></li><li><a href="#appendix-3"><span>Apêndice C · Referências e decisões de design</span><span class="page">65</span></a></li></ul></section><h2 class="chapter" id="chapter-01">1. Visão geral, propósito e público</h2>
+<p>O aplicativo combina uma experiência visual de conta corrente com uma central de governança de agentes. A página inicial oferece saldo, cartão, movimentações, atalhos, cofrinho e ajuda. O destaque “Inspetor IA” abre a área que demonstra observação, verificação de regras, pontuação por agente, suspensão, revisão humana e auditoria.</p>
+<p>O início bancário funciona como cenário de apresentação. Os seus dados são constantes locais, e as ações de Pix, pagamentos e transferências abrem consultas de exemplo. O Inspetor tem estado mutável: permite criar execuções simuladas, revisar ocorrências, pausar ou retomar robôs, recalcular avaliações e exportar uma sessão. Essa diferença é essencial para compreender quais interações efetivamente modificam o aplicativo.</p>
+<p>O caso principal do Inspetor é <strong>crédito para pessoa jurídica</strong>. Atlas representa um agente que consulta documentação e pode solicitar orientação jurídica a Nina. A ferramenta de concessão de crédito está deliberadamente fora do escopo de Atlas. A nota mede a conduta observada do agente de IA, não a situação financeira da empresa nem o comportamento do usuário.</p>
+<p>O público imediato inclui desenvolvedores, pessoas responsáveis por apresentar o MVP e equipes que discutem governança de agentes. Os papéis mostrados na interface são fictícios: “Operador de crédito”, equipes proprietárias dos robôs e “João · revisor da simulação”. Não existe cadastro de usuários ou distribuição real de permissões entre essas pessoas.</p>
+<p>O valor demonstrado é a explicabilidade: cada resultado pode ser percorrido da solicitação até os eventos que sustentam uma regra. O produto torna visível a diferença entre <strong>recusar um pedido antes de consultar</strong> e <strong>tentar consultar indevidamente, ser bloqueado e só então recusar</strong>.</p>
+<p><strong>Intenção observável no projeto:</strong> criar um protótipo mobile adaptável que permita estudar e apresentar esse ciclo com dados controlados, sem depender de infraestrutura bancária. Uma eventual implantação em produção exige outro estágio de engenharia, descrito no planejamento.</p>
+<h2 class="chapter" id="chapter-02">2. Escopo e inventário de funcionalidades</h2>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>O que existe</th>
+<th>Estado e alcance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Página inicial</td>
+<td>Saudação, conta, saldo, cartão, extrato resumido, objetivo e ajuda</td>
+<td>Interface funcional sobre constantes fictícias</td>
+</tr>
+<tr>
+<td>Privacidade visual</td>
+<td>Ocultar e mostrar valores nos componentes bancários e painéis</td>
+<td>Preferência persistida localmente</td>
+</tr>
+<tr>
+<td>Extrato</td>
+<td>Cinco lançamentos e filtros Todas, Entradas e Saídas</td>
+<td>Consulta de uma lista local</td>
+</tr>
+<tr>
+<td>Ourocard</td>
+<td>Representação do cartão, fatura, compras, vencimento e limite disponível</td>
+<td>Sem emissão, bloqueio de cartão ou pagamento real</td>
+</tr>
+<tr>
+<td>Pix e transferências</td>
+<td>Histórico sintético de duas movimentações Pix</td>
+<td>Sem envio ou recebimento real</td>
+</tr>
+<tr>
+<td>Pagamentos</td>
+<td>Fatura, aviso de ausência de agendamentos e último boleto</td>
+<td>Sem leitura de código de barras ou autorização</td>
+</tr>
+<tr>
+<td>Serviços</td>
+<td>Busca textual em dez serviços, ignorando acentos</td>
+<td>Navegação para painéis locais</td>
+</tr>
+<tr>
+<td>Notificações</td>
+<td>Dois avisos e marcação global de leitura</td>
+<td>Sem push, caixa remota ou estado individual por aviso</td>
+</tr>
+<tr>
+<td>Cofrinho e investimentos</td>
+<td>Objetivo Próxima viagem e valor acumulado</td>
+<td>Sem aportes, resgates ou cálculo de rentabilidade</td>
+</tr>
+<tr>
+<td>Atendimento</td>
+<td>FAQ, números apresentados e botão para site oficial</td>
+<td>Abertura externa apenas por ação do usuário</td>
+</tr>
+<tr>
+<td>Inspetor</td>
+<td>Duas identidades de agente, cinco regras e dez cenários</td>
+<td>Simulação local com eventos tipados</td>
+</tr>
+<tr>
+<td>Governança</td>
+<td>Suspensão, pausa manual, revisão, retomada e recorrência</td>
+<td>Estado e trilha de auditoria locais</td>
+</tr>
+<tr>
+<td>Exportação</td>
+<td>Relatório JSON da sessão</td>
+<td>Download web ou compartilhamento nativo</td>
+</tr>
+</tbody>
+</table>
+<p>Não foram encontrados backend, API de contas, integração de pagamento, autenticação, banco remoto, clientes MCP/A2A, SDK de LLM, pipeline de CI ou configuração EAS. A existência de referências a essas tecnologias no planejamento não significa que estejam instaladas.</p>
+<p>O PDF é uma entrega documental deste trabalho. A função de exportação já existente no app gera <strong>JSON</strong>, e não PDF; a documentação não adiciona um botão de PDF à interface.</p>
+<h2 class="chapter" id="chapter-03">3. Como o projeto foi construído e evoluiu</h2>
+<p>A implementação usa componentes React Native escritos em TypeScript. Um ponto de entrada registra <code>App</code>; o componente raiz aplica contexto de tema e área segura; uma tela principal combina componentes reutilizáveis. Dados bancários, preferências e lógica do Inspetor têm módulos separados. O resultado pode ser executado no navegador e direcionado a Android e iOS pelo Expo.</p>
+<p>O histórico Git disponível contém quatro commits: <code>da75497</code> (“Initial commit”, 29/09/2026), <code>8f956ff</code> (“implantado”, 29/09/2026), <code>7bf2b38</code> (“phase 2”, 30/09/2026) e <code>e0fc675</code> (“phase 2.1”, 30/09/2026). Esses títulos são registros históricos; “implantado” não basta para demonstrar publicação em loja, hospedagem ativa ou existência de uma versão assinada.</p>
+<p><code>docs/design-references.md</code> registra pesquisa visual em 29/09/2026. Ela consultou materiais públicos do Banco do Brasil, imagens de lojas, manual do CCBB e uma referência vetorial no Wikimedia Commons. A organização da tela e a escolha de componentes foram adaptações do projeto. O uso de fonte do sistema foi explícito: a fonte proprietária BancoDoBrasil não é distribuída.</p>
+<p><code>docs/analise-relatorio.md</code> registra uma evolução iniciada em 01/10/2026 a partir do documento “Relatorio_Consolidado_Monitoramento_Agentes_IA.docx”. O arquivo original não faz parte do inventário atual; esta documentação utiliza a análise local de suas 17 seções, sem afirmar uma nova leitura direta do DOCX.</p>
+<p>Segundo essa análise, uma versão anterior avaliava cenários gerais de atendimento, pagamentos, cadastro e conciliação. A versão atual concentra o MVP em crédito PJ e deriva os resultados de eventos observáveis. O motor deixou de depender de uma pontuação pronta associada ao nome do cenário. A estrutura atual mostra essa separação em <code>contracts.ts</code>, <code>simulator.ts</code>, <code>policy.ts</code> e <code>engine.ts</code>.</p>
+<p>Não há evidência suficiente para reconstruir todas as conversas, atribuir autoria individual de cada trecho ou estimar horas de trabalho. A explicação de “como foi feito” neste documento corresponde ao método visível nos artefatos: pesquisa registrada, composição visual, contratos de dados, simulador, política, governança, armazenamento e testes.</p>
+<h2 class="chapter" id="chapter-04">4. Tecnologias e versões</h2>
+<p>As versões declaradas vêm de <code>package.json</code>; as resolvidas vêm de <code>package-lock.json</code>. O arquivo de lock registra exatamente o conjunto que <code>npm ci</code> procura instalar.</p>
+<table>
+<thead>
+<tr>
+<th>Tecnologia</th>
+<th>Declarada</th>
+<th>Resolvida</th>
+<th>Papel no projeto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expo</td>
+<td>~57.0.25</td>
+<td>57.0.25</td>
+<td>Ferramentas, configuração e execução multiplataforma</td>
+</tr>
+<tr>
+<td>React Native</td>
+<td>0.86.3</td>
+<td>0.86.3</td>
+<td>Componentes nativos e APIs de plataforma</td>
+</tr>
+<tr>
+<td>React</td>
+<td>19.2.3</td>
+<td>19.2.3</td>
+<td>Composição da UI, estado, efeitos e hooks</td>
+</tr>
+<tr>
+<td>React DOM</td>
+<td>19.2.3</td>
+<td>19.2.3</td>
+<td>Suporte à execução web</td>
+</tr>
+<tr>
+<td>React Native Web</td>
+<td>^0.21.2</td>
+<td>0.21.3</td>
+<td>Representação web dos componentes React Native</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td>~6.0.3</td>
+<td>6.0.3</td>
+<td>Tipagem estática e contratos</td>
+</tr>
+<tr>
+<td>Shopify Restyle</td>
+<td>^2.4.5</td>
+<td>2.4.5</td>
+<td>Tema tipado, Box, Text e propriedades responsivas</td>
+</tr>
+<tr>
+<td>AsyncStorage</td>
+<td>2.2.0</td>
+<td>2.2.0</td>
+<td>Preferências e sessão local do Inspetor</td>
+</tr>
+<tr>
+<td>React Native SVG</td>
+<td>15.15.4</td>
+<td>15.15.4</td>
+<td>Símbolos BB e Pix em vetor</td>
+</tr>
+<tr>
+<td>Lucide React Native</td>
+<td>^1.48.0</td>
+<td>1.48.0</td>
+<td>Ícones de interface</td>
+</tr>
+<tr>
+<td>Safe Area Context</td>
+<td>~5.7.0</td>
+<td>5.7.0</td>
+<td>Insets e proteção contra barras/recortes de tela</td>
+</tr>
+<tr>
+<td>Expo Status Bar</td>
+<td>~57.0.1</td>
+<td>57.0.1</td>
+<td>Barra de status configurada com estilo dark</td>
+</tr>
+<tr>
+<td>Expo System UI</td>
+<td>~57.0.4</td>
+<td>57.0.4</td>
+<td>Dependência declarada; sem chamada direta localizada no código</td>
+</tr>
+<tr>
+<td>Expo Metro Runtime</td>
+<td>~57.0.16</td>
+<td>57.0.16</td>
+<td>Runtime importado no ponto de entrada</td>
+</tr>
+<tr>
+<td>Playwright Test</td>
+<td>^1.63.0</td>
+<td>1.63.0</td>
+<td>Testes do motor, interface web e capturas</td>
+</tr>
+<tr>
+<td>ESLint</td>
+<td>^9.39.5</td>
+<td>9.39.5</td>
+<td>Análise estática de qualidade</td>
+</tr>
+<tr>
+<td>eslint-config-expo</td>
+<td>~57.0.2</td>
+<td>57.0.2</td>
+<td>Configuração de lint compatível com Expo</td>
+</tr>
+<tr>
+<td>@types/react</td>
+<td>~19.2.2</td>
+<td>19.2.18</td>
+<td>Tipos de desenvolvimento para React</td>
+</tr>
+</tbody>
+</table>
+<p>O requisito declarado é Node.js <strong>22.13.0 ou superior</strong>. A inspeção documental foi realizada com Node 24.15.0 e npm 11.12.1. Há <code>package-lock.json</code>, e não foi encontrado <code>bun.lock</code>; por isso, os exemplos operacionais seguem npm/npx.</p>
+<p>Não há CSS, Tailwind ou NativeWind nos componentes do aplicativo. O estilo é definido no tema e nas propriedades React Native/Restyle. O CSS utilizado para diagramar esta documentação pertence ao PDF/HTML, não à interface do app.</p>
+<p>O SDK consultado para documentar Expo foi o <strong>57</strong>, conforme o pacote local. A referência oficial foi verificada na <a href="https://docs.expo.dev/versions/v57.0.0/">documentação versionada do SDK 57</a>; alterações futuras de SDK devem ser analisadas com a versão correspondente.</p>
+<h2 class="chapter" id="chapter-05">5. Estrutura completa do repositório</h2>
+<pre><code class="language-text">F:\BB-APP
+├── App.tsx
+├── index.ts
+├── package.json / package-lock.json
+├── app.json / tsconfig.json / metro.config.js / eslint.config.js
+├── playwright.config.ts / playwright.engine.config.ts
+├── AGENTS.md / CLAUDE.md / README.md / LICENSE
+├── .npmrc / .gitignore
+├── assets/
+│   ├── icon.png / favicon.png
+│   └── android-icon-foreground.png / android-icon-monochrome.png
+├── scripts/
+│   ├── expo.cjs / playwright.cjs / generate-icons.cjs
+├── src/
+│   ├── theme.ts
+│   ├── data/bank.ts
+│   ├── hooks/useBanking.ts / useCompactLayout.ts
+│   ├── screens/HomeScreen.tsx
+│   ├── components/
+│   │   ├── ui.tsx / Brand.tsx / BankCards.tsx
+│   │   └── Navigation.tsx / Transactions.tsx / ServiceSheet.tsx
+│   └── features/inspector/
+│       ├── contracts.ts / simulator.ts / policy.ts / engine.ts
+│       ├── validation.ts / storage.ts / useInspector.ts
+│       ├── exportReport.ts / InspectorSummary.tsx
+│       └── InspectorPanel.tsx / InspectorParts.tsx / TraceTimeline.tsx
+├── tests/
+│   ├── home.spec.ts / responsive.spec.ts
+│   └── inspector.spec.ts / inspector-engine.spec.ts
+└── docs/
+    ├── design-references.md / inspector.md / analise-relatorio.md
+    ├── capturas da página inicial e da central
+    └── esta documentação e seus artefatos de leitura
+</code></pre>
+<p><code>node_modules/</code>, <code>.cache/</code>, <code>.expo/</code>, <code>dist/</code>, resultados de testes e projetos nativos gerados são diretórios operacionais ou artefatos ignorados pelo Git. Não representam módulos de negócio. <code>.claude/settings.json</code> é configuração de ferramenta de desenvolvimento, não uma funcionalidade do aplicativo; seu conteúdo não precisa ser reproduzido para explicar o produto.</p>
+<p>Não há <code>src/app/</code>, <code>_layout.tsx</code>, <code>eas.json</code> ou diretórios nativos versionados neste estado. A árvore evidencia uma aplicação com entrada explícita e uma única tela principal.</p>
+<h2 class="chapter" id="chapter-06">6. Arquitetura e fluxo de inicialização</h2>
+<div class="diagram"><div class="diagram-title">Arquitetura que executa hoje</div><div class="flow">index.ts → App → HomeScreen</div><div class="flow-sub">Registro Expo · ThemeProvider · SafeAreaProvider · preferências</div><div class="diagram-grid"><div><b>Experiência bancária</b><br>BankCards · Transactions<br>Navigation · ServiceSheet<br>bank.ts · useBanking</div><div><b>Central Inspetor IA</b><br>InspectorSummary · InspectorPanel<br>useInspector · engine<br>simulator · policy · contracts</div></div><div class="flow-sub">AsyncStorage local ← preferências e sessão → relatório JSON</div></div>
+
+<ol>
+<li><code>index.ts</code> importa o runtime do Metro e registra <code>App</code> com <code>registerRootComponent</code>.</li>
+<li><code>App.tsx</code> chama <code>useBanking</code>, instala <code>SafeAreaProvider</code> e <code>ThemeProvider</code> e configura a barra de status.</li>
+<li>Enquanto as preferências locais são carregadas, mostra um indicador com o rótulo “Carregando início”.</li>
+<li>Depois de <code>banking.ready</code>, monta <code>HomeScreen</code>, que inicializa o controlador do Inspetor independentemente de a central estar aberta.</li>
+<li><code>HomeScreen</code> calcula largura e insets, renderiza o conteúdo, a navegação apropriada e os painéis condicionais.</li>
+<li>O painel bancário abre quando <code>sheet</code> possui um serviço; o Inspetor usa um modal próprio em tela cheia.</li>
+</ol>
+<p>Os controladores entregam dados e funções aos componentes por props. Não existe Redux, Zustand, contexto específico de sessão ou biblioteca de requisições. O contexto Restyle transmite o tema; o contexto de área segura fornece os insets. As funções puras do Inspetor podem ser testadas sem montar componentes.</p>
+<p>Os valores bancários vêm de <code>bank.ts</code>. O estado de exibição vem de <code>useBanking</code>. Os dados de governança vêm de <code>useInspector</code> e do reducer. Essa separação limita a mistura entre preferência de privacidade, apresentação de exemplos financeiros e avaliação dos agentes.</p>
+<p><strong>Limite arquitetural:</strong> interface, simulador, gateway e política executam no mesmo ambiente local. Há separação de responsabilidades no código, mas não uma fronteira independente de segurança.</p>
+<h2 class="chapter" id="chapter-07">7. Navegação atual e direção técnica</h2>
+<p>O tipo <code>Sheet</code> possui 13 identificadores: <code>profile</code>, <code>notifications</code>, <code>statement</code>, <code>pix</code>, <code>payments</code>, <code>transfer</code>, <code>card</code>, <code>investments</code>, <code>services</code>, <code>support</code>, <code>savings</code>, <code>recharge</code> e <code>inspector</code>. <code>sheet = null</code> representa a página principal sem painel.</p>
+<p><code>useBanking.openSheet</code> seleciona um desses valores. <code>ServiceSheet</code> interpreta o serviço e mostra seu conteúdo; retorna <code>null</code> para o Inspetor, que tem um painel separado. <code>closeSheet</code> volta ao estado fechado. O componente recebe uma <code>key</code> baseada no serviço, reiniciando busca e filtro internos ao trocar ou reabrir o painel.</p>
+<p>No celular, a barra inferior contém Início, Extrato, Cartões, Inspetor e Menu. No desktop, a lateral contém Início, Extrato, Cartões, Inspetor IA, Investimentos e Todos os serviços, além de atendimento e perfil. “Início” rola a página até o topo; não cria uma nova rota.</p>
+<p>Na central, <code>tab</code> seleciona Visão geral, Robôs, Auditoria ou Regras. <code>selectedId</code> abre o detalhe de uma execução. A seleção de aba limpa o detalhe e a mensagem temporária; a rolagem retorna ao início ao mudar de aba ou execução. Esses estados pertencem ao componente e são reiniciados quando o modal é desmontado.</p>
+<p><strong>Divergência identificada:</strong> <code>AGENTS.md</code> exige Expo Router para a navegação, mas não há dependência <code>expo-router</code> ou pasta <code>src/app/</code> na implementação atual. O documento descreve o comportamento encontrado; a solicitação de documentação não foi utilizada para migrar o app.</p>
+<p>Uma migração futura deve criar rotas para início, central, agente e execução, com layouts e modais adequados, preservando os controladores e módulos fora de <code>src/app/</code>. Ela ajudará a tratar URLs e navegação de histórico de forma explícita. A recomendação de rotas por arquivos está documentada na <a href="https://docs.expo.dev/router/introduction/">introdução oficial ao Expo Router</a>.</p>
+<h2 class="chapter" id="chapter-08">8. Sistema visual, responsividade e acessibilidade</h2>
+<p><code>src/theme.ts</code> concentra cores, espaços, raios e tipografia. <code>Box</code> e <code>Text</code> são criados pelo Restyle com o tipo <code>Theme</code>; assim, propriedades como <code>backgroundColor="primary"</code> referenciam tokens conhecidos. O objetivo observável é manter uma identidade consistente sem repetir valores em cada componente.</p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th>Tokens e valores principais</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Superfícies</td>
+<td>background #F6F7F9; surface #FFFFFF; surfaceSoft #F1F3F7</td>
+</tr>
+<tr>
+<td>Texto e borda</td>
+<td>text #202A3D; muted #647086; border #E5E8EE</td>
+</tr>
+<tr>
+<td>Marca e ações</td>
+<td>primary #304BB2; brandBlue #465EFF; yellow #FCFC30</td>
+</tr>
+<tr>
+<td>Destaques</td>
+<td>navy #19376A; blueSoft #EEF2FC; gold #D3C191</td>
+</tr>
+<tr>
+<td>Estados</td>
+<td>positive #247653; danger #B43D3D; warning #8A5D16</td>
+</tr>
+<tr>
+<td>Espaçamento</td>
+<td>0, 4, 8, 12, 16, 24, 32, 48 e 64</td>
+</tr>
+<tr>
+<td>Raios</td>
+<td>0, 4, 8 e 12</td>
+</tr>
+<tr>
+<td>Breakpoints Restyle</td>
+<td>phone 0; regularPhone 390; tablet 768; desktop 1100</td>
+</tr>
+</tbody>
+</table>
+<p>As variantes de texto vão de <code>eyebrow</code> (10/16) e <code>caption</code> (12/18) a <code>title</code> (18/26), <code>heading</code> (28/35) e <code>balance</code> (36/45). Os pares representam tamanho e altura da linha. O código adapta valores em alguns pontos, como saldo de 32 em telas menores. A fonte é <code>System</code> no iOS, <code>sans-serif</code> no Android e Arial como padrão web.</p>
+<p>Os limites efetivos do layout não coincidem todos com o token desktop: a Home usa duas colunas a partir de <strong>900 px</strong> e lateral a partir de <strong>1180 px</strong>; o Inspetor usa colunas a partir de <strong>960 px</strong> e agrupa estatísticas horizontalmente a partir de <strong>760 px</strong>. Os painéis bancários ficam centralizados a partir de <strong>768 px</strong>, com largura máxima de 520 e altura máxima de 88%; no celular, ficam junto à base e têm até 90% da altura.</p>
+<p><code>useCompactLayout</code> ativa a forma compacta quando <code>width / max(fontScale, 1) &lt; 375</code>. Assim, fonte de sistema maior recebe reorganização semelhante à de tela mais estreita. Atalhos passam a duas linhas, transações separam descrição e valor, e ações de auditoria podem empilhar.</p>
+<p>Há rótulos para controles, papel de botão e cabeçalho, estados de seleção/expansão/desabilitado, regiões de aviso e ocultação da página atrás dos modais para tecnologias assistivas. Botões de ícone têm 44×44, e botões principais têm altura mínima de 48. A presença desses recursos não comprova acessibilidade completa: leitor de tela, ordem de foco, teclado, contraste e fonte ampliada ainda precisam de validação dedicada.</p>
+<h2 class="chapter" id="chapter-09">9. Componentes e padrões reutilizáveis</h2>
+<table>
+<thead>
+<tr>
+<th>Arquivo/componente</th>
+<th>Responsabilidade e detalhes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ui.tsx / Box, Text</td>
+<td>Primitivas Restyle tipadas; base para todos os blocos</td>
+</tr>
+<tr>
+<td>Tap</td>
+<td>Pressable com feedback por opacidade, hover web e estados acessíveis</td>
+</tr>
+<tr>
+<td>Icon</td>
+<td>Ícone Lucide com cor do tema, espessura 1,65 e elemento decorativo oculto</td>
+</tr>
+<tr>
+<td>IconButton</td>
+<td>Área 44×44, rótulo e badge opcional</td>
+</tr>
+<tr>
+<td>Button</td>
+<td>Ação principal/secundária, ícone opcional e estado desabilitado</td>
+</tr>
+<tr>
+<td>TextLink</td>
+<td>Ação textual de altura mínima 44 com seta opcional</td>
+</tr>
+<tr>
+<td>Card</td>
+<td>Superfície branca com borda, raio e padding adaptável</td>
+</tr>
+<tr>
+<td>Brand.tsx / BBMark</td>
+<td>Símbolo vetorial com geometria compartilhada entre UI e geração de ícones</td>
+</tr>
+<tr>
+<td>Brand / PixMark</td>
+<td>Bloco de marca e geometria vetorial Pix</td>
+</tr>
+<tr>
+<td>BankCards.tsx / Money</td>
+<td>Formatação e mascaramento visual de valores</td>
+</tr>
+<tr>
+<td>AccountCard / CreditCard</td>
+<td>Conta, atalhos e resumo de fatura</td>
+</tr>
+<tr>
+<td>Ourocard</td>
+<td>Representação gráfica com final, titular, chip e marca visual</td>
+</tr>
+<tr>
+<td>SavingsCard / SupportCard</td>
+<td>Objetivo e acesso à ajuda</td>
+</tr>
+<tr>
+<td>Transactions.tsx</td>
+<td>Linha de transação compacta/regular e quatro movimentações recentes</td>
+</tr>
+<tr>
+<td>Navigation.tsx</td>
+<td>Sidebar e BottomBar usando callbacks de navegação local</td>
+</tr>
+<tr>
+<td>ServiceSheet.tsx</td>
+<td>Catálogo, busca, filtros e conteúdo dos 12 painéis bancários</td>
+</tr>
+</tbody>
+</table>
+<p><code>Tap</code> limita largura e aplica opacidade 0,4 quando desabilitado, 0,58 quando pressionado e 0,78 em hover. O feedback não depende de sombras ou animações pesadas. Os componentes recebem ações por funções, mantendo a decisão de negócio nos controladores.</p>
+<p><code>BB_SYMBOL</code> é uma string SVG renderizada com <code>Path</code>. O script de ícones lê a mesma string em <code>Brand.tsx</code>, reduzindo a chance de desenhar uma marca diferente nos assets. O Ourocard é montado por blocos e vetor; não contém imagem remota ou dados de cartão reais.</p>
+<p>Os documentos de design registram origem e adaptações da marca. A licença MIT existente no repositório não constitui autorização de uso da marca BB. Este documento mantém a qualificação de conceito independente já apresentada pelo app.</p>
+<h2 class="chapter" id="chapter-10">10. Dados bancários, valores e datas</h2>
+<table>
+<thead>
+<tr>
+<th>Campo fictício</th>
+<th>Valor exibido ou representação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Titular</td>
+<td>João Costa; iniciais JC</td>
+</tr>
+<tr>
+<td>Agência / conta</td>
+<td>1234-5 / 12345-6</td>
+</tr>
+<tr>
+<td>Saldo</td>
+<td>485075 centavos = R$ 4.850,75</td>
+</tr>
+<tr>
+<td>Fatura</td>
+<td>124890 centavos = R$ 1.248,90</td>
+</tr>
+<tr>
+<td>Limite total</td>
+<td>1000000 centavos = R$ 10.000,00</td>
+</tr>
+<tr>
+<td>Limite disponível</td>
+<td>Total − fatura = R$ 8.751,10</td>
+</tr>
+<tr>
+<td>Final do cartão</td>
+<td>4829</td>
+</tr>
+<tr>
+<td>Cofrinho</td>
+<td>R$ 2.500,00 de R$ 6.000,00; progresso arredondado de 42%</td>
+</tr>
+</tbody>
+</table>
+<p>O armazenamento em centavos inteiros evita usar frações de ponto flutuante como representação básica dos exemplos financeiros. <code>currency(cents)</code> divide por 100 somente para formatar com <code>Intl.NumberFormat</code>, localidade <code>pt-BR</code> e moeda BRL.</p>
+<p>Os cinco lançamentos são Pix recebido de Mariana Lima (+R$ 350,00), compra Pão de Açúcar (−R$ 186,42), conta de energia (−R$ 142,80), Pix enviado a Lucas Santos (−R$ 85,00) e salário (+R$ 5.200,00). A Home mostra os quatro primeiros. O extrato completo mostra os cinco. “Hoje” e “Ontem” são rótulos fixos, não datas recalculadas de uma base de transações.</p>
+<p>A fatura contém Supermercado (R$ 286,42), Assinatura digital (R$ 39,90), Restaurante (R$ 126,80) e Compra on-line (R$ 795,78). A soma é R$ 1.248,90. O limite disponível usa esse total como uma regra de apresentação simplificada, sem representar um cálculo de emissor de cartões.</p>
+<p><code>invoiceDate()</code> seleciona o dia 10 do mês corrente quando o dia local é até 10; depois disso, seleciona o dia 10 do mês seguinte. A data usa o relógio do aparelho. Na data documental de 07/10/2026, a regra corresponde a 10 de outubro, mas o app não fixa esse mês.</p>
+<p>Ocultar valores substitui montantes por marcadores e zera visualmente a barra do cofrinho. Não apaga as constantes, não criptografa armazenamento e não oculta automaticamente os identificadores fictícios da conta. A preferência é de apresentação, não um mecanismo de proteção de segredos.</p>
+<h2 class="chapter" id="chapter-11">11. Manual de uso da experiência bancária</h2>
+<ol>
+<li>Abra o aplicativo. Após o carregamento das preferências, aparecerá “Olá, João.”, com a conta fictícia e o destaque do Inspetor.</li>
+<li>Use o ícone de olho em Conta corrente para ocultar ou mostrar os valores. A escolha acompanha saldo, fatura, lançamentos, objetivo e seus painéis, e é recuperada ao reabrir.</li>
+<li>Toque em “Ver extrato” ou na opção Extrato. “Todas” mostra a lista completa; “Entradas” mantém valores positivos; “Saídas” mantém negativos.</li>
+<li>Abra “Ver fatura” ou Cartões para examinar a representação Ourocard, compras, vencimento e limite disponível. Não há botão de pagamento ou mudança real do cartão.</li>
+<li>Abra Pix para consultar os exemplos de entrada e saída. “Transferir” mostra essas movimentações e oferece acesso ao extrato completo.</li>
+<li>Em “Pagar”, confira o exemplo de fatura, o estado sem agendamentos e o boleto fictício mais recente.</li>
+<li>Abra “Acompanhar cofrinho” para consultar a meta Próxima viagem. Investimentos resume o mesmo total e leva ao cofrinho.</li>
+<li>Toque na lupa ou Menu/Mais para abrir Todos os serviços. Digite, por exemplo, <code>cartoes</code> ou <code>transferencias</code>; a busca compara títulos e descrições sem exigir acentos.</li>
+<li>Abra o sino para ler os dois avisos. Abrir esse painel marca a preferência global <code>notificationsRead</code> como verdadeira. O badge desaparece; os avisos permanecem acessíveis.</li>
+<li>Toque nos dados da conta ou no perfil lateral para consultar o titular demonstrativo e alternar a preferência de valores.</li>
+<li>Abra atendimento, expanda uma pergunta frequente e consulte a resposta local. O botão “Abrir atendimento oficial” solicita a abertura de <code>https://www.bb.com.br/atendimento</code>.</li>
+<li>Feche o painel com o botão X, pelo fundo quando disponível ou pelo mecanismo de fechamento da plataforma.</li>
+</ol>
+<p>Os filtros, a busca e a pergunta de FAQ aberta não são preferências permanentes. Trocar ou reabrir o painel reinicia seus estados locais. “Recarga de celular” é uma tela vazia explicativa; não possui campo de telefone nem cobrança.</p>
+<p>Um erro de armazenamento pode fazer a preferência funcionar apenas em memória. A Home exibe aviso quando o controlador identifica falha. O conteúdo bancário continua disponível porque não depende de rede ou autenticação.</p>
+<h2 class="chapter" id="chapter-12">12. Inspetor IA: objetivos e responsabilidades</h2>
+<p>O Inspetor possui quatro responsabilidades de produto: <strong>observar</strong>, registrando fatos da execução; <strong>verificar</strong>, comparando operações com regras; <strong>dar nota</strong>, calculando resultado por execução e média por agente; <strong>auditar</strong>, recalculando fatos e preservando decisões humanas.</p>
+<div class="diagram"><div class="diagram-title">Pipeline demonstrativo de supervisão</div><div class="flow">Pedido → Intenção → Gateway → Execução ou bloqueio</div><div class="flow">Eventos → Política → Nota → Governança → Painel</div><div class="flow-sub">A tentativa permanece na trilha mesmo quando nenhuma ferramenta executa.</div></div>
+
+<p>A arquitetura explicita o que pode ser observado sem depender do raciocínio interno de um modelo: pedido, ferramenta solicitada, recurso, finalidade, titulares sintéticos, referências de autorização, decisão do gateway, resultado de ferramenta, delegação e resposta final. Não é necessário armazenar cadeia de pensamento para demonstrar o ciclo.</p>
+<p>Atlas e Nina são identidades no simulador. Não são processos independentes, serviços externos ou instâncias de um modelo. A orientação de Nina é uma mensagem determinística emitida na função de simulação. A marca “IA” expressa o domínio do produto, enquanto o algoritmo de supervisão atual é determinístico.</p>
+<p>A política compartilhada é usada em dois momentos: o gateway verifica uma intenção antes de a ferramenta sintética executar; depois, o avaliador inspeciona a trilha registrada. Isso separa prevenção e avaliação comportamental no fluxo, mas ambas as partes usam módulos locais e não oferecem independência operacional.</p>
+<p><strong>Benefício demonstrado:</strong> uma resposta final aparentemente segura não elimina uma tentativa anterior indevida. A interface expõe essa tentativa, a regra afetada, os eventos relacionados e a suspensão resultante.</p>
+<p><strong>Limites:</strong> o app não escuta telemetria real, não intercepta servidores MCP e não consegue desligar um agente externo. Toda suspensão impede novas chamadas ao simulador para aquela identidade, dentro desta sessão.</p>
+<h2 class="chapter" id="chapter-13">13. Agentes, ferramentas e base sintética</h2>
+<table>
+<thead>
+<tr>
+<th>Propriedade</th>
+<th>Atlas</th>
+<th>Nina</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>atlas</td>
+<td>nina</td>
+</tr>
+<tr>
+<td>Papel</td>
+<td>Crédito PJ</td>
+<td>Jurídico</td>
+</tr>
+<tr>
+<td>Versão demonstrativa</td>
+<td>0.2.0</td>
+<td>0.2.0</td>
+</tr>
+<tr>
+<td>Responsável</td>
+<td>Equipe de crédito · fictícia</td>
+<td>Equipe jurídica · fictícia</td>
+</tr>
+<tr>
+<td>Finalidade</td>
+<td>analisar-credito-pj</td>
+<td>orientar-documentacao</td>
+</tr>
+<tr>
+<td>Recursos</td>
+<td>cadastro-sintetico; orientacao-juridica</td>
+<td>orientacao-juridica</td>
+</tr>
+<tr>
+<td>Delegações permitidas</td>
+<td>nina</td>
+<td>Nenhuma</td>
+</tr>
+<tr>
+<td>Ferramentas</td>
+<td>consultar_cadastro_pj; consultar_lote; exportar_dossie; consultar_juridico</td>
+<td>consultar_norma_demo</td>
+</tr>
+</tbody>
+</table>
+<p>O catálogo de ferramentas é explícito. <code>conceder_credito</code> não está na lista de Atlas, embora seja usado no cenário de risco para demonstrar uma ação fora do escopo. Um nome permitido sozinho não basta: o recurso, a finalidade e o destinatário da delegação também precisam corresponder ao cadastro.</p>
+<p><code>DEMO_DATA</code> gera 25 pessoas com IDs de <code>PESSOA-DEMO-001</code> a <code>PESSOA-DEMO-025</code>, vinculadas a <code>EMPRESA-DEMO-001</code>. A segunda pessoa é menor; as outras 24 são adultas. O registro contém apenas uma mensagem sintética de disponibilidade documental. Não existem CPF, documento de identidade, endereço ou dados bancários reais nessa base.</p>
+<p><code>DEMO_USER</code> contém <code>OPERADOR-DEMO-001</code>, referência <code>AUTORIZACAO-DEMO-001</code> e autorização sintética para os 25 IDs. <code>TERCEIRO-DEMO</code> é colocado fora dessa lista no cenário indevido. A presença de uma string de autorização serve para testar a lógica; não representa uma verificação de identidade ou consentimento real.</p>
+<p>Atlas pode delegar uma dúvida genérica para Nina sem enviar titulares. Essa execução pertence a Atlas. O fato de Nina aparecer em <code>agent.returned</code> não cria automaticamente uma execução pontuada para Nina. Para ela, há um cenário próprio: “Orientação jurídica genérica”.</p>
+<h2 class="chapter" id="chapter-14">14. Contratos de dados: entidades e operações</h2>
+<p><code>contracts.ts</code> centraliza os tipos e parâmetros compartilhados. As uniões de strings limitam os valores válidos em desenvolvimento, enquanto <code>validation.ts</code> verifica os dados carregados em runtime.</p>
+<table>
+<thead>
+<tr>
+<th>Entidade</th>
+<th>Campos e função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operation</td>
+<td>Ferramenta, recurso, tipo, finalidade, base demonstrativa, titulares, acesso, aprovações, destinatário e agente-alvo</td>
+</tr>
+<tr>
+<td>TraceEvent</td>
+<td>Envelope de correlação + payload específico do evento</td>
+</tr>
+<tr>
+<td>Check</td>
+<td>ID da regra, status, evidência, recomendação e IDs de eventos</td>
+</tr>
+<tr>
+<td>Run</td>
+<td>Identidade, cenário, agente, política, entrada/saída, diagnósticos, avaliação, revisão e trilha</td>
+</tr>
+<tr>
+<td>Review</td>
+<td>Data, justificativa e autor demonstrativo</td>
+</tr>
+<tr>
+<td>AuditEvent</td>
+<td>ID, data, autor, título, detalhe e execução opcional</td>
+</tr>
+<tr>
+<td>InspectorState</td>
+<td>schema 2, sequência, cursor, execuções, controles dos robôs e eventos de governança</td>
+</tr>
+</tbody>
+</table>
+<p>O envelope de operação contém <code>tool</code>, <code>resource</code>, <code>kind</code> e <code>purpose</code>. Os tipos de operação são <code>read</code>, <code>export</code>, <code>delegate</code> e <code>execute</code>. <code>subjects</code> é uma lista de <code>{ id, age }</code>, em que idade é classificada como <code>adult</code>, <code>minor</code> ou <code>unknown</code>.</p>
+<p><code>access</code> traz <code>principalId</code>, <code>grantRef</code> e <code>subjectIds</code>: identidade declarada do operador, referência da autorização e conjunto permitido. <code>legalBasisRef</code> apresenta uma hipótese demonstrativa. Os controles específicos usam <code>childAssessmentRef</code>, <code>batchApprovalRef</code> e <code>sharingApprovalRef</code>. <code>recipient</code> distingue <code>internal</code> e <code>external</code>; <code>targetAgent</code> identifica uma delegação ou recebe <code>null</code>.</p>
+<p><code>Run</code> preserva a trilha inteira e a avaliação: <code>score</code>, <code>coverage</code>, <code>decision</code>, <code>observationComplete</code> e <code>observationIssues</code>. <code>review</code> começa como <code>null</code>. Os campos <code>durationMs</code> e <code>costCents</code> podem ser nulos, embora o simulador atual forneça valores sintéticos.</p>
+<p>IDs legíveis são gerados como <code>RUN-0001</code>, <code>pj-trace-000001</code> e <code>RUN-0001-E01</code>. Essa convenção facilita a apresentação, mas não implementa unicidade global entre aparelhos, organizações ou sessões independentes. Uma integração distribuída precisará de identificação apropriada.</p>
+<h2 class="chapter" id="chapter-15">15. Eventos e rastreabilidade</h2>
+<p>Todo evento tem <code>id</code>, <code>runId</code>, <code>traceId</code>, <code>sequence</code>, <code>at</code>, <code>actor</code> e <code>parentId</code>. O horário é uma string ISO; a sequência começa em 1. <code>actor</code> pode ser Atlas, Nina, operador fictício ou gateway. Eventos de decisão/resultado fazem referência ao ID da operação solicitada por <code>requestId</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Significado</th>
+<th>Payload característico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>request.received</td>
+<td>Entrada observada do operador</td>
+<td>detail</td>
+</tr>
+<tr>
+<td>operation.requested</td>
+<td>Intenção de chamar ferramenta/ação</td>
+<td>operation</td>
+</tr>
+<tr>
+<td>gateway.decided</td>
+<td>Permissão ou negação antes da execução</td>
+<td>requestId; outcome; ruleIds</td>
+</tr>
+<tr>
+<td>tool.completed</td>
+<td>Resultado sintético de ferramenta</td>
+<td>requestId; records; detail</td>
+</tr>
+<tr>
+<td>agent.delegated</td>
+<td>Acionamento de outro agente</td>
+<td>requestId; target; detail</td>
+</tr>
+<tr>
+<td>agent.returned</td>
+<td>Retorno correlacionado de agente</td>
+<td>requestId; detail</td>
+</tr>
+<tr>
+<td>response.produced</td>
+<td>Resposta final ou recusa</td>
+<td>outcome; detail</td>
+</tr>
+<tr>
+<td>trace.closed</td>
+<td>Encerramento declarado da coleta</td>
+<td>detail</td>
+</tr>
+</tbody>
+</table>
+<p>Uma consulta autorizada normalmente possui seis eventos: pedido, intenção, permissão, resultado, resposta e encerramento. Uma tentativa bloqueada possui cinco, sem <code>tool.completed</code>. A recusa preventiva possui três: pedido, recusa e encerramento. A delegação possui sete, com eventos de delegação e retorno no lugar do resultado de ferramenta simples.</p>
+<p>O emissor do simulador espaça os horários em <strong>80 ms por evento</strong>. A duração corresponde ao intervalo entre início e último evento da trilha completa: não mede latência de uma API ou desempenho de modelo. O custo é fixado em <strong>4 centavos fictícios</strong> por execução e não corresponde a cobrança.</p>
+<p><code>parentId</code> referencia por padrão o último evento emitido. <code>requestId</code> vincula decisões e resultados à intenção específica. Na tela, <code>TraceTimeline</code> mostra autor, ordem, horário, resumo, identificador e origem. Nas regras, <code>eventIds</code> permite relacionar uma evidência ao fato que a produziu.</p>
+<p><strong>Distinção de trilhas:</strong> <code>Run.trace</code> contém eventos de execução; <code>state.events</code> contém decisões e registros de governança, como revisão, atualização de score e suspensão. O limite de 500 aplica-se à segunda lista, não à soma dos eventos internos de todas as execuções.</p>
+<h2 class="chapter" id="chapter-16">16. Os dez cenários, detalhe por detalhe</h2>
+<table>
+<thead>
+<tr>
+<th>ID / cenário</th>
+<th>Intenção e controle acionado</th>
+<th>Nota / decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>healthy / Consulta autorizada</td>
+<td>Cadastro da pessoa 001, dentro da autorização, recurso e finalidade</td>
+<td>100; approved</td>
+</tr>
+<tr>
+<td>refusal / Recusa antes da consulta</td>
+<td>Pedido de terceiro recusado sem operação solicitada</td>
+<td>100; approved</td>
+</tr>
+<tr>
+<td>third-party / Tentativa de acesso a terceiro</td>
+<td>Solicita TERCEIRO-DEMO, ausente da autorização; gateway nega</td>
+<td>70; blocked</td>
+</tr>
+<tr>
+<td>minors / Dados de menor</td>
+<td>Pessoa 002 sem referência de avaliação de melhor interesse</td>
+<td>80; blocked</td>
+</tr>
+<tr>
+<td>bulk / Consulta em massa</td>
+<td>24 adultos sem aprovação de lote, acima do limite 10</td>
+<td>85; blocked</td>
+</tr>
+<tr>
+<td>sharing / Exportação sem autorização</td>
+<td>exportar_dossie, tipo export, destinatário externo, sem aprovação</td>
+<td>80; blocked</td>
+</tr>
+<tr>
+<td>scope / Ação fora do escopo</td>
+<td>conceder_credito com tipo execute, fora da lista permitida</td>
+<td>85; blocked</td>
+</tr>
+<tr>
+<td>delegation / Consulta ao agente jurídico</td>
+<td>Atlas chama Nina para documentação genérica, sem titulares</td>
+<td>100; approved</td>
+</tr>
+<tr>
+<td>telemetry / Evidência ausente</td>
+<td>Simula consulta, mas remove tool.completed da observação entregue</td>
+<td>0 provisório; review</td>
+</tr>
+<tr>
+<td>legal / Orientação jurídica genérica</td>
+<td>Nina consulta consultar_norma_demo, sem titulares</td>
+<td>100; approved</td>
+</tr>
+</tbody>
+</table>
+<p>O cenário <code>healthy</code> consulta a base sintética e emite resultado, mas não concede crédito. <code>refusal</code> e <code>third-party</code> recebem o mesmo pedido indevido: essa escolha permite comparar comportamento seguro e tentativa imprópria sem mudar a demanda do operador.</p>
+<p>Em <code>minors</code>, a pessoa já está na autorização sintética. A falha decorre especificamente da ausência de avaliação demonstrativa para menores. Em <code>bulk</code>, apenas os 24 adultos são incluídos, para isolar a regra de massa da proteção de menores. Em <code>sharing</code>, Atlas pode usar a ferramenta de exportação, mas falta a autorização específica: permissão de ferramenta e aprovação de compartilhamento são controles distintos.</p>
+<p>Em <code>scope</code>, a ferramenta solicitada é a principal razão da falha. Em <code>delegation</code>, o simulador emite o acionamento e uma resposta textual de Nina, com a mesma origem de operação. Em <code>legal</code>, a execução é de Nina e respeita sua própria finalidade.</p>
+<p>Em <code>telemetry</code>, a ferramenta executa no fluxo sintético, mas o evento de resultado é removido da trilha recebida pelo avaliador. A lacuna de sequência e o resultado ausente tornam a comprovação insuficiente. O resultado zero não significa cinco violações comprovadas: cada critério fica <code>unknown</code>.</p>
+<p>Os cenários não armazenam notas predefinidas. <code>simulateRun</code> cria operações e eventos; <code>assessTrace</code> deriva a avaliação. Os testes alteram os fatos de uma trilha mantendo o nome do cenário, e verificam que a nota acompanha os fatos.</p>
+<h2 class="chapter" id="chapter-17">17. Política PJ-2026.2 e cinco controles</h2>
+<table>
+<thead>
+<tr>
+<th>Regra</th>
+<th style="text-align: right;">Peso</th>
+<th>Condição implementada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>authorization</td>
+<td style="text-align: right;">30</td>
+<td>grantRef e legalBasisRef presentes; todo titular solicitado deve constar em access.subjectIds</td>
+</tr>
+<tr>
+<td>minors</td>
+<td style="text-align: right;">20</td>
+<td>Menor exige childAssessmentRef; idade unknown torna o critério desconhecido</td>
+</tr>
+<tr>
+<td>bulk</td>
+<td style="text-align: right;">15</td>
+<td>Mais de 10 titulares requer batchApprovalRef; avaliação agrega distintos por execução</td>
+</tr>
+<tr>
+<td>sharing</td>
+<td style="text-align: right;">20</td>
+<td>kind export ou recipient external exige sharingApprovalRef</td>
+</tr>
+<tr>
+<td>scope</td>
+<td style="text-align: right;">15</td>
+<td>Ferramenta, recurso e finalidade pertencem ao cadastro; delegação tem alvo permitido</td>
+</tr>
+</tbody>
+</table>
+<p>Todos os controles estão marcados <code>critical: true</code>. Na política atual, qualquer falha verificada leva a decisão <code>blocked</code> e suspensão local. Uma nota de 85 pode ser bloqueada; a decisão não é um corte fixo de pontuação.</p>
+<p><code>evaluateOperation</code> inspeciona cada intenção separadamente. Se há menores sem referência, a falha prevalece; se não há essa falha mas alguma idade é desconhecida, o resultado da regra fica desconhecido. Uma exportação interna também exige aprovação porque o tipo <code>export</code> já ativa o controle de compartilhamento.</p>
+<p><code>scope</code> compara igualdade da finalidade e inclusão nas listas de ferramentas/recursos. Uma operação <code>delegate</code> precisa de alvo não nulo. Quando há alvo, ele deve constar na lista de delegações permitidas, mesmo que outro tipo de operação tenha sido informado.</p>
+<p><code>assessTrace</code> agrega titulares distintos em todas as intenções do agente na execução. Se o conjunto passa de 10 e alguma operação não tem aprovação de lote, a regra massa falha. Isso impede que uma consulta de 12 pessoas dividida em duas chamadas de seis pareça estar dentro do limite demonstrativo.</p>
+<p><strong>Parâmetros propostos, não exigências legais:</strong> pesos, limite de dez titulares, janela de vinte e recorrência de três são escolhas do MVP. As referências a finalidade, necessidade, hipóteses de tratamento, menores e segurança constam na <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm">LGPD</a>. O <a href="https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-divulga-enunciado-sobre-o-tratamento-de-dados-pessoais-de-criancas-e-adolescentes/Enunciado1ANPD.pdf">Enunciado ANPD nº 1/2023</a> orienta o melhor interesse de crianças e adolescentes. O código verifica referências demonstrativas; não decide sua validade jurídica nem certifica conformidade.</p>
+<h2 class="chapter" id="chapter-18">18. Fórmulas de nota, cobertura e score do agente</h2>
+<p>Cada regra recebe <code>pass</code>, <code>fail</code> ou <code>unknown</code>. A nota soma pesos apenas dos critérios <code>pass</code>. Uma regra conta uma única vez por execução, ainda que várias operações a violem. Uma operação posterior correta não compensa uma falha anterior na mesma execução.</p>
+<pre><code class="language-text">Nota da execução = soma(peso da regra quando status = pass)
+Cobertura = soma(peso da regra quando status = pass ou fail)
+Score do agente = arredondar(média das suas últimas até 20 notas)
+Score médio da central = arredondar(média dos agentes avaliados)
+</code></pre>
+<p>A cobertura mede quanto foi possível decidir, incluindo falhas. Uma execução com nota 70 e cobertura 100 tem evidências suficientes, mas falhou em autorização. Uma execução com nota 0 e cobertura 0 não teve seus critérios comprovados. Se há falha observada e outra evidência ausente, a decisão continua bloqueada e a cobertura pode ser parcial.</p>
+<p>A prioridade é: qualquer <code>fail</code> produz <code>blocked</code>; sem falha, algum <code>unknown</code> produz <code>review</code>; todos os critérios decididos como <code>pass</code> produzem <code>approved</code>. Os textos exibidos são Aprovada, Revisão necessária e Bloqueada.</p>
+<p>No início de uma sessão nova, Atlas tem 100, 100 e 70: <code>(100 + 100 + 70) / 3 = 90</code>. Nina tem 100. A média da central é <code>(90 + 100) / 2 = 95</code>. A média das quatro execuções seria 92,5, mas não é essa a métrica central escolhida.</p>
+<p>Agente sem execução tem <code>score = null</code>, evitando uma nota inventada. Se alguma execução da janela tem cobertura abaixo de 100, o score do agente é marcado provisório. Registrar revisão não remove essa condição, pois a nota e a cobertura originais são preservadas.</p>
+<p>O histórico do gráfico mostra evolução da média, e não uma barra de cada nota individual. Para cada execução mostrada, calcula a janela vigente naquele ponto. Assim, a primeira barra visível pode incorporar execuções anteriores à janela atualmente exibida.</p>
+<p><strong>Interpretação:</strong> score resume histórico recente; suspensão é um estado operacional separado. Mesmo com média alta, um agente fica suspenso após uma falha crítica até revisão e retomada explícita.</p>
+<h2 class="chapter" id="chapter-19">19. Qualidade da observação e ausência de evidência</h2>
+<p><code>observationIssues</code> verifica o início <code>request.received</code> e o término <code>trace.closed</code>; IDs duplicados; ordem sequencial; correlação com execução e trace; horários não regressivos; relação de origem com eventos anteriores; referências a operações válidas; e presença de uma única resposta final do agente avaliado.</p>
+<p>Para cada <code>operation.requested</code>, exige exatamente uma decisão de gateway. A autoria dessa decisão deve ser <code>gateway</code>. Uma operação permitida deve ter um único resultado (<code>tool.completed</code> ou <code>agent.returned</code>); uma negada não deve ter resultado executado. Um resultado anterior à decisão é sinalizado como inconsistência. Operação solicitada por outro agente demanda avaliação própria.</p>
+<p>Quando alguma dessas verificações encontra um problema, os critérios que não possuem falha já comprovada tornam-se <code>unknown</code>. Essa política é conservadora: uma lacuna compromete a comprovação das regras da execução, sem fabricar cinco violações. Falhas que já aparecem nas intenções permanecem <code>fail</code>.</p>
+<p>O teste de trilha bloqueada sem encerramento demonstra esse caso: autorização continua falha; outros controles tornam-se desconhecidos; nota cai para zero, cobertura é 30 e decisão continua bloqueada. A prioridade preserva a violação, apesar da incompletude.</p>
+<p>O validador de formato e o verificador de observação têm funções diferentes. Um JSON pode ter estrutura correta e ainda representar uma trilha incompleta. A restauração aceita determinados casos estruturados com evidência insuficiente, recalcula a nota e mantém a necessidade de revisão.</p>
+<p><strong>Limites para produção:</strong> as verificações não autenticam autores, não assinam eventos e não provam que o coletor viu todas as chamadas. Os campos de decisão e as referências recebidas são locais. A avaliação de regra se baseia principalmente na intenção solicitada; contradições detalhadas entre decisão, resultado e autorização precisam de uma suíte mais ampla e de um coletor confiável.</p>
+<h2 class="chapter" id="chapter-20">20. Governança: estados, revisão, suspensão e recorrência</h2>
+<p><code>reduceInspector</code> recebe quatro famílias de ação: <code>simulate</code>, <code>review</code>, <code>toggleRobot</code> e <code>audit</code>. Copia o estado anterior e produz o próximo, sem alterar o snapshot anterior. Quando uma operação é inválida ou impedida, devolve o estado anterior.</p>
+<p>Uma simulação cria nova execução, incrementa a sequência e insere a execução no início da lista. Registra observação, inspeção e atualização do score. Quando ocorre uma nova recorrência, registra o padrão. Quando a decisão é bloqueada, marca o agente pausado e adiciona a suspensão.</p>
+<p>Uma revisão exige execução existente, decisão diferente de aprovada, ausência de revisão anterior e justificativa com <strong>12 a 1000 caracteres após trim</strong>. A revisão guarda horário, nota e autor fictício. Não altera score, decisão, fatos ou histórico e não retoma o robô automaticamente.</p>
+<p>Retomar um agente suspenso é impedido enquanto existir execução bloqueada desse agente sem revisão. Depois de revisar todas as críticas, a pessoa pode retomar explicitamente. Pendências <code>review</code> por falta de evidência não produzem suspensão automática nesta política. A interface permite pausar manualmente um agente disponível e registra essa escolha.</p>
+<div class="diagram"><div class="diagram-title">Fluxo de uma ocorrência crítica</div><div class="flow">Disponível → Execução com falha → Suspenso</div><div class="flow">Suspenso → Revisão das críticas → Retomada explícita</div><div class="flow-sub">Revisão encerra a pendência; a execução histórica continua bloqueada.</div></div>
+
+<p>Recorrência significa uma mesma regra falhar em <strong>pelo menos três execuções entre as últimas vinte do agente</strong>. Eventos múltiplos da mesma execução não contam várias vezes. O registro “Recorrência identificada” é emitido quando o padrão passa a existir; não a cada nova execução enquanto ele já está ativo. Se as falhas saem da janela e o padrão reaparece posteriormente, uma nova identificação pode ocorrer.</p>
+<p>A recorrência é um diagnóstico, não um desconto extra. As execuções já possuem as notas correspondentes. O histórico permite distinguir falha pontual, repetição recente e estado atual de suspensão.</p>
+<h2 class="chapter" id="chapter-21">21. Sessão inicial, sequência automática e limites</h2>
+<p><code>createInspector</code> monta uma sessão de <code>schema: 2</code> e executa, nessa ordem, <code>healthy</code>, <code>refusal</code>, <code>legal</code> e <code>third-party</code>. Os horários são distribuídos entre quatro e um minuto antes do momento de criação.</p>
+<table>
+<thead>
+<tr>
+<th>Execução inicial</th>
+<th>Agente / caso</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RUN-0001</td>
+<td>Atlas / consulta autorizada</td>
+<td>100, aprovada</td>
+</tr>
+<tr>
+<td>RUN-0002</td>
+<td>Atlas / recusa preventiva</td>
+<td>100, aprovada</td>
+</tr>
+<tr>
+<td>RUN-0003</td>
+<td>Nina / norma demonstrativa</td>
+<td>100, aprovada</td>
+</tr>
+<tr>
+<td>RUN-0004</td>
+<td>Atlas / tentativa de terceiro</td>
+<td>70, bloqueada; Atlas suspenso</td>
+</tr>
+</tbody>
+</table>
+<p>As métricas iniciais são quatro execuções, média 95, uma revisão pendente, uma crítica e um agente disponível. O início apresenta um problema já preparado para investigação, sem exigir que o usuário crie o primeiro incidente.</p>
+<p>O laboratório permite escolher um cenário explicitamente ou iniciar uma sequência a cada <strong>oito segundos</strong>. A sequência percorre o catálogo com um cursor e ignora agentes pausados. Na sessão inicial, Atlas está suspenso; por isso, a sequência disponível pode executar os cenários de Nina até Atlas ser retomado.</p>
+<p><code>useInspector</code> só mantém o intervalo quando está pronto, o modo automático está ativado, a central está visível, o app está ativo, existe agente disponível e o limite de execuções não foi atingido. Ao fechar a central, <code>stop()</code> desativa o modo automático. Ao sair do primeiro plano, o intervalo é removido; ao voltar com a central aberta e o modo ainda ativo, pode recomeçar.</p>
+<p>Não existe serviço em segundo plano, fila remota ou recuperação de ticks perdidos. A sequência simula uma nova execução por intervalo ativo. Botões de execução ficam desabilitados para agente pausado, sessão em carregamento ou limite cheio.</p>
+<p>O limite é <strong>100 execuções por sessão</strong>. O motor interrompe novas execuções ao atingir esse número, preservando as existentes e suas pendências. A trilha de governança retém os últimos <strong>500 registros</strong>. A janela de score é <strong>20 por agente</strong>. A interface carrega oito execuções ou quinze registros por vez, com botão Mostrar mais.</p>
+<p>Não foi encontrado botão de “zerar sessão”, importação de relatórios ou migração automática da versão anterior. Limpeza de armazenamento durante desenvolvimento deve ser consciente e precedida de exportação quando o histórico importar.</p>
+<h2 class="chapter" id="chapter-22">22. Persistência, restauração e validação</h2>
+<table>
+<thead>
+<tr>
+<th>Chave local</th>
+<th>Conteúdo</th>
+<th>Comportamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@bb/home/preferences/v1</td>
+<td>valuesVisible e notificationsRead</td>
+<td>Preferências booleanas; painel e filtros não persistem</td>
+</tr>
+<tr>
+<td>@bb/inspector/session/v2</td>
+<td>Estado completo do Inspetor</td>
+<td>Execuções, traces, revisões, pausas, sequência, cursor e auditoria</td>
+</tr>
+</tbody>
+</table>
+<p>Os hooks carregam AsyncStorage em efeito de montagem. Um sinal <code>active</code> impede atualizações tardias após desmontagem. <code>ready</code> habilita as ações após a leitura. Um marcador <code>dirty</code> evita escrever a sessão inicial automaticamente antes de haver interação. Uma cadeia de Promises serializa gravações para reduzir inversão de ordem.</p>
+<p>No controlador bancário, os dados recuperados precisam conter dois booleanos. JSON inválido ou falha de leitura ativa aviso. No Inspetor, <code>restoreInspector</code> faz análise detalhada e pode recusar a sessão, apresentando uma nova demonstração e mensagem de validação.</p>
+<p>A restauração exige schema 2, política corrente, limites de listas, sequência consistente, cenários/agentes conhecidos, IDs de execução coerentes, datas válidas e formatos corretos. Reconstrói entrada, saída e ferramentas a partir dos eventos e recalcula a avaliação com <code>reassess</code>; não confia na nota salva.</p>
+<p>Se há execução bloqueada não revisada, a restauração força o agente a permanecer suspenso, mesmo se o campo salvo disser disponível. Uma revisão precisa de nota válida e não pode ser associada a execução aprovada. Eventos de governança devem ter IDs EVT numéricos em ordem crescente e referências existentes quando apontam para uma execução.</p>
+<p><code>validation.ts</code> limita a 200 eventos por trace, 100 titulares e 100 IDs de acesso por operação, referências até 120 caracteres e detalhes até 2000. Duração/custo são nulos ou inteiros seguros entre zero e 1.000.000. A validação verifica formato e coerência local, sem consulta externa às referências.</p>
+<p>O armazenamento v1 do Inspetor não é reinterpretado como política PJ atual. O código registra a intenção de preservar a chave antiga, pois sua política anterior não pode ser convertida silenciosamente em avaliação de privacidade.</p>
+<p><strong>Consequências práticas:</strong> dados ficam neste aparelho/navegador; não sincronizam entre dispositivos; podem desaparecer ao limpar os dados; e não constituem armazenamento imutável. Alterar a trilha pode alterar a avaliação recalculada, pois não existe assinatura. Em erro de gravação, a sessão atual segue em memória e a interface avisa.</p>
+<h2 class="chapter" id="chapter-23">23. Manual de uso do Inspetor e roteiro de apresentação</h2>
+<ol>
+<li>Abra o destaque “Abrir central de inspeção” ou o item Inspetor. Confira a identificação de simulação e os quatro indicadores iniciais.</li>
+<li>Observe Atlas com score 90 e investigue o bloqueio. O detalhe de RUN-0004 apresenta nota 70, cobertura 100, uma tentativa e nenhuma ação executada.</li>
+<li>Percorra a linha do tempo: pedido de terceiro, intenção registrada, gateway negando, recusa final e encerramento. A regra Acesso autorizado mostra zero de 30 e o evento que sustenta a falha.</li>
+<li>Volte à central e abra RUN-0002. Compare: a mesma solicitação foi recusada sem tentativa, nota 100. Este é o exemplo central para explicar o produto.</li>
+<li>Volte a RUN-0004. Digite uma justificativa, como “Permissões conferidas na base fictícia.”, e registre a revisão. O botão de retomada passa a ser permitido quando não restam críticas sem revisão.</li>
+<li>Retome Atlas explicitamente. Confirme que RUN-0004 continua bloqueada e com nota 70. Revisão registrada e agente disponível são estados diferentes.</li>
+<li>Na Visão geral, escolha “Consulta ao agente jurídico” e execute. Abra a nova execução: a nota é 100, e os eventos mostram Atlas → Nina → retorno, sem titulares enviados.</li>
+<li>Escolha “Evidência ausente”. Abra o detalhe: nota zero provisória, cobertura zero, cinco critérios sem comprovação e avisos da trilha. Explique que isso é falta de evidência, não cinco violações confirmadas.</li>
+<li>Experimente os cinco riscos. Cada ocorrência crítica exige revisão e retomada antes de novo cenário de Atlas. Para demonstrar recorrência, repita a mesma violação até alcançar três execuções na janela, incluindo a inicial quando aplicável.</li>
+<li>Na aba Robôs, confira responsável fictício, versão, ferramentas, delegações, score, ocorrências e estado. Use Pausar/Retomar para demonstrar decisões manuais.</li>
+<li>Na aba Regras, confira atribuições e pesos. Na aba Auditoria, pressione Auditar sessão e examine o registro com divergências, pendências e trilhas incompletas.</li>
+<li>Exporte o relatório JSON. No navegador, será iniciado um download; em Android/iOS, o conteúdo será entregue ao compartilhamento do sistema.</li>
+</ol>
+<p>Para apresentação, reserve tempo para três comparações: recusa preventiva versus tentativa; nota de execução versus score do agente; falha comprovada versus evidência insuficiente. Não é necessário executar todos os cenários numa apresentação curta, mas o catálogo completo permanece disponível para exploração.</p>
+<h2 class="chapter" id="chapter-24">24. Exportação, auditoria e interpretação do relatório</h2>
+<p><code>createReport</code> reúne <code>title</code>, <code>generatedAt</code>, <code>simulated</code>, <code>schema</code>, <code>policy</code>, <code>rules</code>, <code>scoreSubject</code>, <code>scope</code>, <code>scoring</code>, <code>metrics</code>, <code>demoUser</code>, <code>robots</code>, <code>runs</code> e <code>auditTrail</code>. Cada robô inclui cadastro, estado e <code>assessment</code>, com média, janela, histórico e recorrências.</p>
+<p>O relatório inclui as operações e referências sintéticas dentro dos traces, evidências por regra e revisões humanas. Ele identifica explicitamente o agente como objeto do score e informa o alcance local e os limites de retenção. Pode ser usado para demonstrar e inspecionar a sessão, sem representar uma certificação.</p>
+<p>No web, <code>exportReport</code> cria um Blob JSON UTF-8, uma URL temporária e um link com nome <code>inspetor-simulacao-N.json</code>, em que N é a sequência corrente. O link é removido após o clique e a URL é revogada após 60 segundos para permitir consumo assíncrono do arquivo.</p>
+<p>No nativo, usa <code>Share.share</code> com título e JSON como mensagem. A escolha de destino pertence ao aparelho e aos aplicativos disponíveis. A implementação não garante criação de um anexo físico <code>.json</code> em todas as plataformas. O retorno distingue cancelamento e envio ao mecanismo de compartilhamento.</p>
+<p>A auditoria reaplica <code>reassess</code> a cada execução e compara nota, cobertura, decisão, critérios, completude e problemas de observação. Registra quantas divergências encontrou, mas <strong>não substitui as notas históricas durante essa ação</strong>. Os testes verificam explicitamente que uma nota alterada é detectada e preservada no snapshot auditado.</p>
+<p>Isso difere da restauração: ao carregar uma sessão, a avaliação é reconstruída a partir da trilha. Auditar é conferir e registrar; restaurar é reconstruir o estado válido para uso.</p>
+<p>O relatório não é enviado automaticamente a servidor ou equipe. Exportar é uma ação explícita. A interface desabilita a ação durante a geração e apresenta resultado ou erro. Não existe importação correspondente ou histórico compartilhado entre revisores.</p>
+<h2 class="chapter" id="chapter-25">25. Catálogo técnico de todos os módulos</h2>
+<table>
+<thead>
+<tr>
+<th>Caminho</th>
+<th>Como participa da aplicação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>index.ts</td>
+<td>Runtime Metro e registro da raiz Expo</td>
+</tr>
+<tr>
+<td>App.tsx</td>
+<td>Providers, StatusBar e estado de carregamento bancário</td>
+</tr>
+<tr>
+<td>src/theme.ts</td>
+<td>Design tokens e tipos Theme/Color</td>
+</tr>
+<tr>
+<td>src/data/bank.ts</td>
+<td>Sheet, Transaction, conta, lançamentos, fatura e funções BRL/data</td>
+</tr>
+<tr>
+<td>src/hooks/useBanking.ts</td>
+<td>Preferências, leitura/escrita local e controle de painéis</td>
+</tr>
+<tr>
+<td>src/hooks/useCompactLayout.ts</td>
+<td>Decisão compacta por largura efetiva e escala de fonte</td>
+</tr>
+<tr>
+<td>src/screens/HomeScreen.tsx</td>
+<td>Composição principal e integração do controlador Inspetor</td>
+</tr>
+<tr>
+<td>src/components/ui.tsx</td>
+<td>Primitivas, controles e superfícies reutilizáveis</td>
+</tr>
+<tr>
+<td>src/components/Brand.tsx</td>
+<td>Geometria BB, bloco de marca e marca Pix</td>
+</tr>
+<tr>
+<td>src/components/BankCards.tsx</td>
+<td>Conta, cartão, valores, objetivo e ajuda</td>
+</tr>
+<tr>
+<td>src/components/Navigation.tsx</td>
+<td>Navegação lateral e inferior por callbacks</td>
+</tr>
+<tr>
+<td>src/components/Transactions.tsx</td>
+<td>Linhas financeiras e resumo de quatro lançamentos</td>
+</tr>
+<tr>
+<td>src/components/ServiceSheet.tsx</td>
+<td>Modal de serviços, busca, filtros, FAQ e link externo</td>
+</tr>
+<tr>
+<td>src/features/inspector/contracts.ts</td>
+<td>Tipos, política, regras, limites e agentes</td>
+</tr>
+<tr>
+<td>src/features/inspector/simulator.ts</td>
+<td>Base sintética, operador, cenários e emissor de eventos</td>
+</tr>
+<tr>
+<td>src/features/inspector/policy.ts</td>
+<td>Operações, integridade da observação, nota e reassess</td>
+</tr>
+<tr>
+<td>src/features/inspector/engine.ts</td>
+<td>Reducer, seed inicial, médias, recorrência, auditoria e relatório</td>
+</tr>
+<tr>
+<td>src/features/inspector/validation.ts</td>
+<td>Validadores runtime de formatos e operações</td>
+</tr>
+<tr>
+<td>src/features/inspector/storage.ts</td>
+<td>Chave v2 e restauração coerente por recálculo</td>
+</tr>
+<tr>
+<td>src/features/inspector/useInspector.ts</td>
+<td>Persistência, ciclo de vida, timer e API do controlador</td>
+</tr>
+<tr>
+<td>src/features/inspector/InspectorSummary.tsx</td>
+<td>Destaque da Home e pendências</td>
+</tr>
+<tr>
+<td>src/features/inspector/InspectorPanel.tsx</td>
+<td>Quatro abas, estatísticas, laboratório, filtros e exportação</td>
+</tr>
+<tr>
+<td>src/features/inspector/InspectorParts.tsx</td>
+<td>Badges, lista/detalhe de execução e formulário de revisão</td>
+</tr>
+<tr>
+<td>src/features/inspector/TraceTimeline.tsx</td>
+<td>Apresentação da trilha e suas referências</td>
+</tr>
+<tr>
+<td>src/features/inspector/exportReport.ts</td>
+<td>Download web e Share nativo</td>
+</tr>
+<tr>
+<td>scripts/expo.cjs</td>
+<td>Launcher Expo com temporários no projeto</td>
+</tr>
+<tr>
+<td>scripts/playwright.cjs</td>
+<td>Launcher de testes com caches locais</td>
+</tr>
+<tr>
+<td>scripts/generate-icons.cjs</td>
+<td>Renderização de assets pelo Chromium, a partir de BB_SYMBOL</td>
+</tr>
+<tr>
+<td>tests/home.spec.ts</td>
+<td>Quatro jornadas bancárias, executadas em mobile e desktop</td>
+</tr>
+<tr>
+<td>tests/inspector.spec.ts</td>
+<td>Seis jornadas da central, executadas em mobile e desktop</td>
+</tr>
+<tr>
+<td>tests/responsive.spec.ts</td>
+<td>Seis larguras de 280 a 430, home, central e serviços</td>
+</tr>
+<tr>
+<td>tests/inspector-engine.spec.ts</td>
+<td>Quatorze testes puros de regras, governança e restauração</td>
+</tr>
+<tr>
+<td>docs/design-references.md</td>
+<td>Pesquisa visual, fontes e decisões de adaptação</td>
+</tr>
+<tr>
+<td>docs/inspector.md</td>
+<td>Roteiro, política e limites do MVP</td>
+</tr>
+<tr>
+<td>docs/analise-relatorio.md</td>
+<td>Mapeamento de requisitos, decisões provisórias e evolução</td>
+</tr>
+</tbody>
+</table>
+<p>As configurações e assets são detalhados no próximo capítulo. Esta organização permite localizar a responsabilidade antes de modificar comportamento. Para alterar uma regra, o caminho começa em contrato/política; para alterar sua apresentação, começa em Parts/Panel; para alterar persistência, começa em storage/validation/hook.</p>
+<h2 class="chapter" id="chapter-26">26. Configurações, assets e ferramentas de desenvolvimento</h2>
+<p><code>app.json</code> define nome “BB · Conceito”, slug <code>bb-home-conceito</code>, versão 1.0.0, orientação portrait e estilo light. Habilita suporte a tablet no iOS; o Android tem ícone adaptativo e suporte configurado ao gesto preditivo de voltar. O web utiliza favicon.</p>
+<p>Os assets são <code>icon.png</code>, <code>favicon.png</code>, <code>android-icon-foreground.png</code> e <code>android-icon-monochrome.png</code>. O script gera 1024 px para ícone/foreground/monochrome e 64 px para favicon. Foreground e monochrome são transparentes; monochrome usa símbolo branco. A UI usa vetor, não esses bitmaps para desenhar o cabeçalho.</p>
+<p><code>tsconfig.json</code> estende <code>expo/tsconfig.base</code> e habilita <code>strict: true</code>. A configuração encontrada não define aliases próprios. <code>eslint.config.js</code> usa o formato flat e ignora <code>dist</code>, <code>.cache</code>, <code>test-results</code> e <code>playwright-report</code>.</p>
+<p><code>metro.config.js</code> parte de <code>getDefaultConfig</code> do Expo e acrescenta bloqueios para caches e resultados de testes. Assim, o bundler não precisa rastrear esses artefatos como fonte do aplicativo. <code>.npmrc</code> direciona o cache npm para <code>.cache/npm</code>.</p>
+<p>Os launchers Expo e Playwright criam <code>.cache/tmp</code> e ajustam <code>TEMP</code>, <code>TMP</code> e <code>TMPDIR</code> somente no processo filho. Playwright define <code>.cache/browsers</code> por padrão, mantendo possibilidade de substituir <code>PLAYWRIGHT_BROWSERS_PATH</code>. A configuração de testes separa downloads por ID de processo.</p>
+<p><code>AGENTS.md</code> contém regras de desenvolvimento: consultar a documentação da versão Expo, instalar pacotes com Expo Install, usar Router, priorizar mobile e executar lint/typecheck. <code>CLAUDE.md</code> remete a esse arquivo. São instruções para manutenção, não telas do produto.</p>
+<p>O arquivo <code>LICENSE</code> contém licença MIT com atribuição à Expo/650 Industries. A distribuição deve conservar avisos aplicáveis. Fontes visuais externas e dependências possuem seus próprios termos; o documento de design registra origem de BB, Pix e ícones. Essa informação pertence ao inventário de manutenção e não altera os direitos sobre a marca.</p>
+<h2 class="chapter" id="chapter-27">27. Instalação, execução e comandos</h2>
+<p>Requisitos: Node 22.13+; npm; acesso para instalar dependências; dispositivo/ambiente compatível para testar plataformas. No Windows do projeto, o caminho pode ser aberto com PowerShell:</p>
+<pre><code class="language-powershell">Set-Location -LiteralPath 'F:\BB-APP'
+npm ci
+npm start
+</code></pre>
+<p><code>npm ci</code> utiliza o lockfile. <code>npm start</code> chama o launcher local do Expo. Para o navegador, use <code>npm run web</code>; para dispositivo Android/emulador configurado, <code>npm run android</code>. <code>npm run ios</code> exige ambiente de simulador iOS disponível em macOS; não disponibiliza um simulador iOS no Windows.</p>
+<table>
+<thead>
+<tr>
+<th>Comando</th>
+<th>Finalidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>npm start</td>
+<td>Servidor de desenvolvimento Expo</td>
+</tr>
+<tr>
+<td>npm run web</td>
+<td>Servidor e abertura web</td>
+</tr>
+<tr>
+<td>npm run android</td>
+<td>Solicitar abertura no Android disponível</td>
+</tr>
+<tr>
+<td>npm run ios</td>
+<td>Solicitar abertura iOS no ambiente compatível</td>
+</tr>
+<tr>
+<td>npm run typecheck</td>
+<td>tsc --noEmit</td>
+</tr>
+<tr>
+<td>npm run lint</td>
+<td>Lint pelo launcher Expo</td>
+</tr>
+<tr>
+<td>npm run check</td>
+<td>Typecheck seguido de lint</td>
+</tr>
+<tr>
+<td>npm run test:engine</td>
+<td>Testes puros sem servidor web ou navegador</td>
+</tr>
+<tr>
+<td>npm run test:e2e</td>
+<td>Suite completa e servidor configurado</td>
+</tr>
+<tr>
+<td>npm run export:web</td>
+<td>Bundle web em dist/</td>
+</tr>
+<tr>
+<td>npx expo-doctor</td>
+<td>Diagnóstico de compatibilidade e configuração</td>
+</tr>
+<tr>
+<td>npx expo install --fix</td>
+<td>Ajuste intencional de versões incompatíveis</td>
+</tr>
+<tr>
+<td>npx expo install pacote</td>
+<td>Adição de dependência com versão compatível</td>
+</tr>
+</tbody>
+</table>
+<p>O app precisa de Expo Go compatível com SDK 57 ou development build adequado. Bibliotecas nativas não presentes no cliente exigem reconstrução; a distinção é descrita na <a href="https://docs.expo.dev/develop/development-builds/introduction/">documentação de development builds</a>.</p>
+<p>Para preparar Chromium e executar testes:</p>
+<pre><code class="language-powershell">node scripts/playwright.cjs install chromium
+npm run test:engine
+npm run test:e2e
+</code></pre>
+<p>Para regenerar ícones usando o cache local:</p>
+<pre><code class="language-powershell">$env:PLAYWRIGHT_BROWSERS_PATH = '.cache/browsers'
+node scripts/generate-icons.cjs
+</code></pre>
+<p>Não troque o navegador pela revisão de outra instalação apenas para evitar o download. Use o binário compatível com a versão do Playwright. Os exemplos não pressupõem credenciais bancárias ou variáveis secretas, pois o runtime atual é local e sintético.</p>
+<h2 class="chapter" id="chapter-28">28. Estratégia de testes e validação desta documentação</h2>
+<p>A suíte completa configura quatro projetos: <code>engine</code>, <code>desktop</code>, <code>mobile</code> e <code>compact</code>. O desktop usa 1440×1100; mobile/compact usam um perfil Pixel 7 no Chromium. Há dois workers, timeout geral de 120 s e espera de assertivas de até 10 s. O servidor de teste usa Expo web na porta 8081, offline, com CI e telemetria Expo desativada para esse processo.</p>
+<p>As falhas retêm trace e captura. A configuração independente <code>playwright.engine.config.ts</code> executa somente o motor, sem precisar de servidor Expo. O uso de Playwright para lógica pura permite compartilhar a mesma ferramenta sem obrigar navegador nesses testes.</p>
+<table>
+<thead>
+<tr>
+<th>Grupo</th>
+<th style="text-align: right;">Casos no código</th>
+<th>O que comprova</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Motor</td>
+<td style="text-align: right;">14</td>
+<td>Regras, evidência, delegação, score, recorrência, revisão, limites e restauração</td>
+</tr>
+<tr>
+<td>Home desktop/mobile</td>
+<td style="text-align: right;">4 × 2</td>
+<td>Saldo/fatura, privacidade persistida, extrato/busca, avisos/FAQ</td>
+</tr>
+<tr>
+<td>Inspetor desktop/mobile</td>
+<td style="text-align: right;">6 × 2</td>
+<td>Revisão, evidência ausente, sequência, auditoria/download, tentativa e delegação</td>
+</tr>
+<tr>
+<td>Responsividade</td>
+<td style="text-align: right;">6</td>
+<td>280, 320, 360, 375, 390 e 430 px, com componentes e modais</td>
+</tr>
+<tr>
+<td>Total configurado</td>
+<td style="text-align: right;">40</td>
+<td>Lógica local e experiência web demonstrativa</td>
+</tr>
+</tbody>
+</table>
+<p>A responsividade verifica a largura interna do ScrollView e os limites de botões, além da página inteira. Isso detecta conteúdo que poderia escapar dentro de um contêiner sem ampliar o documento externo. Os testes de sequência controlam o relógio para avançar os intervalos, em vez de depender de espera real longa.</p>
+<p>Os testes do motor verificam também operações autorizadas para menores/lotes/compartilhamento, falta de referência, recurso/finalidade/alvo indevidos, consulta fracionada, nota alterada, suspensão adulterada no snapshot e limites de retenção. Não são apenas verificações de textos na tela.</p>
+<p><strong>Resultado da rodada atual:</strong> veja o arquivo <code>docs/validacao-documentacao.json</code>, incorporado à edição PDF. Ele separa verificações executadas agora dos registros históricos de 01/10/2026 em <code>docs/analise-relatorio.md</code>. Não confundir os dois momentos.</p>
+<p>O escopo de comprovação é local/web. Não demonstra aprovação em Android/iOS físicos, desempenho sob carga, revisão jurídica, segurança de backend inexistente ou publicação. Bundles exportados também não equivalem a APK/IPA assinados. A cobertura percentual de código não foi medida nesta análise.</p>
+<h2 class="chapter" id="chapter-29">29. Segurança, privacidade e riscos técnicos reais</h2>
+<p>O runtime não coleta senha, não pede autorização de pagamento e não chama conta bancária. A base é sintética; o único link externo funcional identificado na interface é a página de atendimento, aberto por escolha do usuário. As notificações são conteúdo local, sem SDK de push.</p>
+<p>Os controles do Inspetor são regras de demonstração. As referências de base, autorização e aprovação são strings verificadas por presença ou associação local. Elas não são obtidas de uma identidade autenticada, não têm assinatura, prazo ou emissor confiável e não provam consentimento ou outra hipótese de tratamento.</p>
+<p>AsyncStorage guarda dados localmente sem um mecanismo de criptografia implementado pelo app. Ocultar valores é uma preferência visual. O log de auditoria pode ser alterado ou eliminado por quem controla o ambiente local; o formato validado não o torna imutável.</p>
+<table>
+<thead>
+<tr>
+<th>Risco atual</th>
+<th>Efeito prático</th>
+<th>Próxima resposta proposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autores não autenticados</td>
+<td>Autor fictício não identifica revisor real</td>
+<td>Autenticação e papéis de operador/revisor/admin</td>
+</tr>
+<tr>
+<td>Gateway no cliente</td>
+<td>Pode ser contornado fora do simulador</td>
+<td>Enforcement no servidor, sem acesso alternativo às ferramentas</td>
+</tr>
+<tr>
+<td>Referências declaradas</td>
+<td>Aprovação técnica pode ser apenas uma string</td>
+<td>Serviço de autorização e validação de escopo/finalidade</td>
+</tr>
+<tr>
+<td>Evidência local editável</td>
+<td>Recálculo não detecta falsificação de origem</td>
+<td>Coletor confiável, proteção e integridade dos registros</td>
+</tr>
+<tr>
+<td>Política única atual</td>
+<td>Mudanças podem invalidar restauração antiga</td>
+<td>Versionamento e migrações explícitas</td>
+</tr>
+<tr>
+<td>Limite de sessão</td>
+<td>Não atende observação contínua</td>
+<td>Retenção, paginação e armazenamento remoto</td>
+</tr>
+<tr>
+<td>Compartilhamento manual</td>
+<td>Revisores não compartilham uma central comum</td>
+<td>Serviço de relatório com controle de acesso</td>
+</tr>
+<tr>
+<td>Falta de teste nativo atual</td>
+<td>Comportamento pode variar por plataforma</td>
+<td>Matriz de aparelhos e development builds</td>
+</tr>
+</tbody>
+</table>
+<p>Essas lacunas explicam o planejamento de produção. Não impedem o uso atual como demonstração controlada, mas delimitam o significado de “segurança”, “auditoria” e “monitoramento” nos materiais de apresentação.</p>
+<h2 class="chapter" id="chapter-30">30. Performance e compatibilidade multiplataforma</h2>
+<p>A aplicação mantém o estado inteiro no cliente. A Home utiliza <code>ScrollView</code>; a central limita a exibição inicial e aumenta por botão. Não há FlatList virtualizada, processamento remoto, upload, streaming ou sincronização. Os limites de 100 execuções e 500 registros ajudam a conter o crescimento, mas não constituem um teste de carga.</p>
+<p><code>agentMetrics</code> filtra, ordena e calcula médias e histórico quando chamado pela UI. A restauração percorre e recalcula as execuções. Cada mudança de sessão grava um snapshot JSON completo. Essas escolhas simplificam o MVP; numa central extensa, podem aumentar custo de CPU, memória e escrita.</p>
+<p>O timer roda somente na central visível e em primeiro plano. Isso evita simular trabalho quando o usuário está em outra tela ou o app está inativo. A remoção do intervalo em cleanup evita timers duplicados entre mudanças de condição.</p>
+<p>Os vetores evitam carregar imagens de rede para marca e ícones. A fonte do sistema elimina download de fonte própria. O layout usa área segura e dimensão de janela, e componentes têm limites de largura e quebra para telas pequenas.</p>
+<p>Pontos que exigem medição futura: tempo de inicialização com histórico cheio; custo de serialize/reassess; navegação no detalhe longo; responsividade sob fonte ampliada; uso de memória; e latência da integração real. Otimizações como memoização, lista virtualizada, escrita incremental ou separação de serviço devem ser escolhidas a partir dessas medições.</p>
+<table>
+<thead>
+<tr>
+<th>Plataforma</th>
+<th>Situação documentada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web</td>
+<td>Testável com React Native Web e Playwright; download JSON implementado</td>
+</tr>
+<tr>
+<td>Android</td>
+<td>Alvo Expo configurado; comportamento nativo precisa de teste em aparelho/build</td>
+</tr>
+<tr>
+<td>iOS</td>
+<td>Alvo Expo e tablets configurados; simulador depende de macOS; teste físico pendente</td>
+</tr>
+<tr>
+<td>Tablets/desktop</td>
+<td>Layout adaptável por largura; evidências atuais incluem imagens e testes web</td>
+</tr>
+</tbody>
+</table>
+<p>Não foi executada nesta documentação uma mudança de API Expo/React Native. O trabalho produz documentos e ferramentas para sua geração, preservando o aplicativo analisado.</p>
+<h2 class="chapter" id="chapter-31">31. Publicação, builds e manutenção operacional</h2>
+<p>Não há <code>eas.json</code>, IDs nativos de distribuição ou evidência de submissão a lojas neste workspace. A configuração de app e a possibilidade de exportar bundles não bastam para afirmar que o produto está pronto para publicar.</p>
+<p>O caminho de distribuição proposto segue as instruções do projeto: usar EAS para builds assinados, submissão e atualizações. A <a href="https://docs.expo.dev/eas/">visão geral oficial do EAS</a> descreve esses serviços. A configuração de projeto, perfis, credenciais e identificação de aplicativo deve ocorrer como tarefa própria.</p>
+<pre><code class="language-powershell"># Exemplos para uma futura configuração de distribuição:
+npx eas-cli@latest build:configure
+npx eas-cli@latest build --profile development --platform android
+npx eas-cli@latest build --profile development --platform ios
+# Somente após configurar um perfil production e validar o produto:
+npx eas-cli@latest build --profile production --platform all
+npx eas-cli@latest submit --platform android
+npx eas-cli@latest submit --platform ios
+</code></pre>
+<p>Não executar essas etapas apenas por constarem no manual: elas pressupõem decisões de publicação e configuração compatível. O development build precisará dos pacotes e perfis apropriados. EAS Update requer configuração de atualização, política de runtime/canais e validação de compatibilidade; o app atual não declara <code>expo-updates</code>.</p>
+<p>Sem <code>ios/</code> e <code>android/</code> versionados, o projeto segue a estratégia de geração nativa prevista nas instruções locais. Configuração de comportamento nativo deve permanecer em app config/config plugins, em vez de criar projetos manuais. A referência é <a href="https://docs.expo.dev/workflow/continuous-native-generation/">Continuous Native Generation</a>.</p>
+<p>Para manutenção cotidiana: instalar de modo reprodutível, conferir mudanças de SDK com documentação versionada, executar check, rodar testes relevantes, revisar artefatos e testar as plataformas afetadas. Mudanças de política devem informar versão, expectativas de score e estratégia para sessões já salvas.</p>
+<h2 class="chapter" id="chapter-32">32. Diagnóstico de problemas e uso em demonstração</h2>
+<table>
+<thead>
+<tr>
+<th>Sintoma</th>
+<th>Explicação provável</th>
+<th>Ação prática</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executar cenário desabilitado</td>
+<td>Atlas suspenso, carregamento ou limite cheio</td>
+<td>Conferir Robôs, revisar críticas e retomar; observar limite</td>
+</tr>
+<tr>
+<td>Retomar Atlas desabilitado</td>
+<td>Existe bloqueio não revisado</td>
+<td>Registrar revisão de todas as críticas de Atlas</td>
+</tr>
+<tr>
+<td>Nota não aumenta após revisão</td>
+<td>Revisão preserva avaliação histórica</td>
+<td>Explicar a distinção; novas execuções alteram média</td>
+</tr>
+<tr>
+<td>Zero sem cinco falhas</td>
+<td>Trilha com evidência incompleta</td>
+<td>Conferir cobertura, status unknown e problemas de observação</td>
+</tr>
+<tr>
+<td>Sequência gera apenas Nina</td>
+<td>Atlas suspenso; cursor ignora agentes indisponíveis</td>
+<td>Revisar e retomar Atlas se desejar seus cenários</td>
+</tr>
+<tr>
+<td>Sequência para ao fechar</td>
+<td>Comportamento explícito de stop</td>
+<td>Reabrir e iniciar novamente</td>
+</tr>
+<tr>
+<td>Preferência/histórico não salva</td>
+<td>Erro de AsyncStorage ou ambiente sem persistência</td>
+<td>Ver aviso; exportar enquanto a sessão estiver em memória</td>
+</tr>
+<tr>
+<td>Sessão reiniciada com aviso</td>
+<td>JSON/política/formato não passou na restauração</td>
+<td>Preservar o raw para diagnóstico, sem expor dados reais</td>
+</tr>
+<tr>
+<td>Chromium não encontrado</td>
+<td>Navegador compatível não instalado no cache configurado</td>
+<td>Executar launcher install chromium</td>
+</tr>
+<tr>
+<td>Teste não sobe na porta 8081</td>
+<td>Conflito ou servidor não disponível</td>
+<td>Conferir processo/porta antes de trocar configuração</td>
+</tr>
+<tr>
+<td>Expo Go não abre projeto</td>
+<td>Cliente e SDK podem ser incompatíveis</td>
+<td>Usar cliente compatível ou development build</td>
+</tr>
+<tr>
+<td>Link de ajuda falha</td>
+<td>Navegador/rede não abriu URL</td>
+<td>Interface mostra mensagem e o endereço de atendimento</td>
+</tr>
+</tbody>
+</table>
+<p>Para restaurar a demonstração inicial em ambiente de desenvolvimento, remova somente a chave de sessão do Inspetor por ferramentas do ambiente, após exportar o que precisar. A UI atual não possui comando de reset. Evite orientar limpeza de todo o armazenamento quando apenas uma chave interessa.</p>
+<p>Uma apresentação deve começar com o estado salvo conhecido. Se já houver interações anteriores, as notas e IDs podem diferir do roteiro inicial. O documento usa RUN-0001 a RUN-0004 como seed de uma sessão nova, e não promete que toda abertura sempre volta a esse estado.</p>
+<h2 class="chapter" id="chapter-33">33. Planejamento existente e decisões em aberto</h2>
+<p>A análise local do relatório registra uma parcial documental em “2 de outubro” e apresentação na “primeira semana de dezembro”, sem ano explícito no documento de origem. Não há comprovação de agenda confirmada, aceite da parcial ou entrega externa. Este PDF não converte esses marcos em compromisso aprovado.</p>
+<p>As decisões implementadas como propostas são: score do agente; cinco controles; pesos 30/20/15/20/15; limite de dez titulares; média de vinte execuções; recorrência de três; pausa após falha; revisão sem mudança retroativa da nota; e eventos locais <code>local-events/1</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Questão para a equipe</th>
+<th>O que o MVP escolheu</th>
+<th>O que falta decidir</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pesos</td>
+<td>Somam 100</td>
+<td>Validade por domínio e explicação dos tradeoffs</td>
+</tr>
+<tr>
+<td>Severidade</td>
+<td>Toda falha é crítica</td>
+<td>Diferenciar alerta, revisão e bloqueio por regra</td>
+</tr>
+<tr>
+<td>Janela</td>
+<td>Últimas 20</td>
+<td>Volume, período temporal e política de retenção</td>
+</tr>
+<tr>
+<td>Recorrência</td>
+<td>3 execuções por regra</td>
+<td>Escalonamento, responsáveis e ação corretiva</td>
+</tr>
+<tr>
+<td>Telemetria ausente</td>
+<td>Zero provisório, revisão</td>
+<td>SLA de coleta, expiração e tratamento de atrasos</td>
+</tr>
+<tr>
+<td>Revisão humana</td>
+<td>Nota textual e retomada separada</td>
+<td>Papéis, dupla aprovação e comprovação de correção</td>
+</tr>
+<tr>
+<td>Protocolo</td>
+<td>Contrato tipado local</td>
+<td>MCP, A2A ou adaptação conforme arquitetura real</td>
+</tr>
+<tr>
+<td>Avaliação</td>
+<td>Fatos de chamada observados</td>
+<td>Escopo e riscos de avaliação semântica futura</td>
+</tr>
+<tr>
+<td>Independência</td>
+<td>Mesmo processo local</td>
+<td>Separação de coletor, gateway, política e UI</td>
+</tr>
+<tr>
+<td>Distribuição</td>
+<td>Sem configuração de loja</td>
+<td>Público, identidade do produto e builds de avaliação</td>
+</tr>
+</tbody>
+</table>
+<p>A pesquisa prévia de MCP e A2A está registrada em <code>docs/analise-relatorio.md</code>. Nenhum desses protocolos foi instalado. Escolher um protocolo não substitui identidade, autorização, observação confiável ou bloqueio efetivo. A primeira integração deve demonstrar o percurso real de uma ferramenta antes de ampliar o catálogo.</p>
+<h2 class="chapter" id="chapter-34">34. Roadmap proposto, entregáveis e critérios de aceite</h2>
+<p>Este roadmap organiza as lacunas encontradas. <strong>Não é um cronograma aprovado</strong>; não pressupõe orçamento, equipe ou fornecedores. Os critérios indicam como reconhecer a conclusão de cada etapa.</p>
+<table>
+<thead>
+<tr>
+<th>Etapa / prioridade</th>
+<th>Entregável proposto</th>
+<th>Critério de aceite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A · P0 · consolidar política</td>
+<td>Documento acordado de pesos, limites, severidade e janela</td>
+<td>Casos bons, ruins e incompletos têm expectativa aprovada e reproduzível</td>
+</tr>
+<tr>
+<td>B · P0 · integrar um agente</td>
+<td>Serviço separado com agente controlado, ferramenta e gateway</td>
+<td>Eventos do pedido ao resultado correlacionados; operação negada não executa</td>
+</tr>
+<tr>
+<td>C · P0 · identidade e autorização</td>
+<td>Operadores, agentes, revisores e escopos confiáveis</td>
+<td>Usuário sem papel não revisa; agente sem permissão não chama ferramenta</td>
+</tr>
+<tr>
+<td>D · P0 · evidência protegida</td>
+<td>Ingestão validada, deduplicação, retenção e armazenamento</td>
+<td>Duplicatas/atrasos/reordenação não inventam aprovação; autoria verificável</td>
+</tr>
+<tr>
+<td>E · P1 · navegação</td>
+<td>Migração para Expo Router</td>
+<td>Rotas em src/app e retorno/link de execução testados nas plataformas</td>
+</tr>
+<tr>
+<td>F · P1 · governança operacional</td>
+<td>Fluxo de pendências, motivos, responsáveis e correção</td>
+<td>Bloqueio, revisão e retomada são auditáveis e não apagáveis silenciosamente</td>
+</tr>
+<tr>
+<td>G · P1 · qualidade nativa</td>
+<td>Matriz Android/iOS, acessibilidade e desempenho</td>
+<td>Uso principal aprovado em aparelhos reais e fontes ampliadas</td>
+</tr>
+<tr>
+<td>H · P1 · distribuição de avaliação</td>
+<td>EAS configurado, development/preview builds</td>
+<td>Equipe instala e avalia uma versão identificável e reproduzível</td>
+</tr>
+<tr>
+<td>I · P2 · expansão</td>
+<td>Mais agentes e domínios com contratos estáveis</td>
+<td>Novo agente não contorna escopo nem altera regras existentes sem versão</td>
+</tr>
+<tr>
+<td>J · P2 · análise semântica</td>
+<td>Avaliação complementar, se necessária</td>
+<td>Métricas e falsos positivos definidos; score continua explicável</td>
+</tr>
+</tbody>
+</table>
+<p>Para a primeira integração, a arquitetura proposta é: aplicativo → serviço autenticado → gateway de política → ferramenta/agente → coletor → avaliador → armazenamento protegido → aplicativo. Credenciais de ferramentas e poder de bloqueio devem ficar no serviço. O cliente consulta e solicita ações autorizadas.</p>
+<p>Uma implementação inicial deve priorizar um caminho pequeno: uma chamada autorizada, uma negada, uma delegação e uma falha de telemetria. Compare seus eventos com os cenários sintéticos para verificar se o contrato suporta os fatos reais.</p>
+<p>Depois disso, planeje testes de duplicidade, atraso, eventos fora de ordem, indisponibilidade, falsificação de autoria e caminho que tenta contornar o gateway. O código atual sinaliza lacunas, mas não implementa recuperação distribuída. Em seguida, evolua armazenamento, paginação, filtros, autenticação e alertas conforme necessidade observada.</p>
+<h2 class="chapter" id="chapter-35">35. Backlog detalhado e indicadores futuros</h2>
+<table>
+<thead>
+<tr>
+<th>Item proposto</th>
+<th>Dependência principal</th>
+<th>Evidência de conclusão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definir proprietário da política</td>
+<td>Equipe de produto/governança</td>
+<td>Versão e aprovadores identificados</td>
+</tr>
+<tr>
+<td>Separar coletor do simulador</td>
+<td>Contrato de eventos</td>
+<td>Mesmo avaliador consome coleta real controlada</td>
+</tr>
+<tr>
+<td>Validar autorizações no servidor</td>
+<td>Identidade e fonte confiável</td>
+<td>Referência inválida/expirada/fora do conjunto é negada</td>
+</tr>
+<tr>
+<td>Proteger isolamento entre organizações</td>
+<td>Modelo de usuários/tenants</td>
+<td>Uma organização não consulta traces de outra</td>
+</tr>
+<tr>
+<td>Versionar e migrar sessões/políticas</td>
+<td>Modelo persistente</td>
+<td>Dados anteriores são preservados ou rejeitados com motivo explícito</td>
+</tr>
+<tr>
+<td>Acrescentar revisão de atraso/timeout</td>
+<td>Política de observação</td>
+<td>Trilha pendente tem destino previsível sem aprovação por silêncio</td>
+</tr>
+<tr>
+<td>Paginar e virtualizar históricos</td>
+<td>Armazenamento remoto</td>
+<td>Navegação utilizável com volume definido pela equipe</td>
+</tr>
+<tr>
+<td>Separar score de alerta operacional</td>
+<td>Regras/severidade aprovadas</td>
+<td>Média alta não libera bloqueio pendente</td>
+</tr>
+<tr>
+<td>Garantir exportação por papel</td>
+<td>Serviço de relatórios</td>
+<td>Campos e alcance respeitam permissão do solicitante</td>
+</tr>
+<tr>
+<td>Tratar foco e leitor de tela</td>
+<td>Navegação e componentes</td>
+<td>Jornadas testadas com VoiceOver/TalkBack/teclado</td>
+</tr>
+<tr>
+<td>Criar pipeline de validação</td>
+<td>Ambiente de CI</td>
+<td>Check e suites relevantes executam em cada alteração</td>
+</tr>
+<tr>
+<td>Definir identidade de distribuição</td>
+<td>Decisão de produto</td>
+<td>Materiais e builds descrevem claramente o conceito independente</td>
+</tr>
+</tbody>
+</table>
+<p>Indicadores a considerar numa integração: proporção de execuções com observação completa; tempo até decisão preventiva; atraso de ingestão; quantidade de bloqueios por regra; tempo para revisão; recorrências por agente; retomadas com justificativa; divergências de auditoria; e falhas de coleta. Metas numéricas devem ser definidas depois de medir o caminho real.</p>
+<p>Para produto e UX, medir sucesso na investigação de uma ocorrência, entendimento de nota versus cobertura e conclusão da revisão. Para engenharia mobile, medir início, memória e tempo de interação com histórico representativo. Nenhum desses indicadores está instrumentado atualmente como analytics remoto.</p>
+<h2 class="chapter" id="chapter-36">36. Galeria comentada da interface</h2>
+<p>As imagens abaixo são artefatos existentes do projeto. São úteis para entender hierarquia e responsividade; a data de geração exata não foi inferida a partir de horário de arquivo. Textos e posições podem mudar conforme largura e histórico salvo.</p>
+<figure class="phone-figure"><img src="preview-mobile.png" alt="Página inicial no celular"><figcaption>Figura 1 · Página inicial mobile: destaque do Inspetor, conta e acesso às ações.</figcaption></figure>
+
+<figure class="wide-figure"><img src="preview-desktop.png" alt="Página inicial no desktop"><figcaption>Figura 2 · Layout desktop: menu lateral e distribuição em colunas.</figcaption></figure>
+
+<figure class="phone-figure"><img src="preview-mobile-small.png" alt="Página inicial em largura de 320 pixels"><figcaption>Figura 3 · Forma compacta: adaptação de conteúdo e atalhos em 320 px.</figcaption></figure>
+
+<figure class="phone-figure"><img src="inspector-mobile.png" alt="Visão geral do Inspetor"><figcaption>Figura 4 · Central mobile: indicadores e início da investigação.</figcaption></figure>
+
+<figure class="wide-figure"><img src="inspector-desktop.png" alt="Central do Inspetor no desktop"><figcaption>Figura 5 · Visão geral desktop: laboratório e lista de execuções.</figcaption></figure>
+
+<figure class="phone-figure"><img src="inspector-mobile-detail.png" alt="Detalhe de inspeção no celular"><figcaption>Figura 6 · Detalhe da execução: nota, cobertura e contexto do agente.</figcaption></figure>
+
+<figure class="phone-figure"><img src="inspector-mobile-trace.png" alt="Linha do tempo dos eventos"><figcaption>Figura 7 · Linha do tempo: tentativa, decisão e evidências correlacionadas.</figcaption></figure>
+
+<figure class="wide-figure"><img src="inspector-desktop-detail.png" alt="Relatório de execução no desktop"><figcaption>Figura 8 · Relatório de inspeção em tela ampla.</figcaption></figure>
+
+<p>As capturas completas (<code>preview-mobile-full.png</code>, <code>preview-desktop-full.png</code> e variantes pequenas) permanecem em <code>docs/</code> para consulta adicional. Evitou-se comprimi-las em uma única página a ponto de tornar textos ilegíveis.</p>
+<h2 class="chapter" id="chapter-37">37. Glossário e referências</h2>
+<table>
+<thead>
+<tr>
+<th>Termo</th>
+<th>Significado neste projeto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agente</td>
+<td>Identidade sintética Atlas ou Nina, com escopo explícito</td>
+</tr>
+<tr>
+<td>Inspetor</td>
+<td>Pipeline local de avaliação e governança de execuções</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>Função preventiva que permite ou nega operações no simulador</td>
+</tr>
+<tr>
+<td>Trace</td>
+<td>Conjunto correlacionado de eventos de uma execução</td>
+</tr>
+<tr>
+<td>Run</td>
+<td>Execução com entrada, eventos, avaliação e revisão opcional</td>
+</tr>
+<tr>
+<td>Score</td>
+<td>Média recente do agente; a nota individual pertence à execução</td>
+</tr>
+<tr>
+<td>Cobertura</td>
+<td>Soma dos pesos que puderam ser decididos, inclusive falhas</td>
+</tr>
+<tr>
+<td>Unknown</td>
+<td>Critério sem comprovação suficiente, diferente de fail</td>
+</tr>
+<tr>
+<td>Recorrência</td>
+<td>Mesma regra violada em três ou mais execuções na janela</td>
+</tr>
+<tr>
+<td>Revisão</td>
+<td>Registro humano demonstrativo que encerra uma pendência</td>
+</tr>
+<tr>
+<td>Suspensão</td>
+<td>Impedimento local de novas simulações para um agente</td>
+</tr>
+<tr>
+<td>MCP/A2A</td>
+<td>Protocolos investigados; não conectados no código atual</td>
+</tr>
+<tr>
+<td>CNG</td>
+<td>Geração de projetos nativos a partir da configuração Expo</td>
+</tr>
+<tr>
+<td>EAS</td>
+<td>Serviços Expo propostos para builds, submissão e atualizações</td>
+</tr>
+<tr>
+<td>MVP</td>
+<td>Recorte funcional pequeno para validar comportamento e produto</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fontes locais primárias:</strong> código em <code>src/</code>, App/index, configurações, lockfile, testes e documentos citados. A análise inclui o estado não commitado; a documentação não presume que ele tenha sido publicado.</p>
+<p><strong>Fontes oficiais consultadas nesta edição:</strong> <a href="https://docs.expo.dev/versions/v57.0.0/">SDK Expo 57</a>, <a href="https://docs.expo.dev/llms.txt">índice Expo para agentes</a>, <a href="https://docs.expo.dev/router/introduction/">Expo Router</a>, <a href="https://docs.expo.dev/eas/">EAS</a>, <a href="https://docs.expo.dev/workflow/continuous-native-generation/">CNG</a>, <a href="https://docs.expo.dev/develop/development-builds/introduction/">development builds</a>, <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm">LGPD</a> e <a href="https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-divulga-enunciado-sobre-o-tratamento-de-dados-pessoais-de-criancas-e-adolescentes/Enunciado1ANPD.pdf">Enunciado ANPD 1/2023</a>. Consulta em 07/10/2026.</p>
+<p><strong>Fontes de pesquisa visual registradas pelo projeto:</strong> App Store e Google Play do Banco do Brasil; diretrizes de marca citadas; manual CCBB; vetor BB em Wikimedia Commons; Simple Icons para Pix e Lucide para ícones. O detalhe de acesso, disponibilidade e atribuição está no apêndice de referências de design.</p>
+<p><strong>Manutenção da documentação:</strong> atualizar versões, catálogo de cenários, fórmulas, limites, estrutura e evidências quando mudar o código. Regenerar o PDF após editar este Markdown e conferir a validação de páginas. Cada roadmap deve permanecer identificado como proposta até ser acordado e implementado.</p>
+<h2 class="chapter" id="chapter-38">38. Evidências e documentos de apoio</h2>
+<p>A edição PDF inclui, a seguir, um painel de validação da rodada atual e os três documentos de apoio existentes: análise das 17 seções, guia do MVP e referências de design. Eles preservam o contexto e as decisões anteriores em vez de ocultar detalhes atrás de um resumo.</p>
+<p>Informações históricas nesses apêndices permanecem atribuídas às datas originais. A validação de 01/10/2026 citada no relatório local é distinta das verificações executadas para gerar esta documentação. O planejamento proposto nos capítulos anteriores não modifica o código ou o estado de aprovação desses textos.</p><h2 class="chapter" id="evidence">Validação executada em 07/10/2026</h2><div class="evidence"><p class="status">TypeScript + ESLint: Aprovado</p><p><code>npm run check</code></p><p>Typecheck e lint concluídos com código de saída 0.</p></div><div class="evidence"><p class="status">Motor independente: Aprovado</p><p><code>npm run test:engine</code></p><p>14 testes aprovados.</p></div><div class="evidence"><p class="status">Suíte completa: 38 aprovados; 2 timeouts</p><p><code>npm run test:e2e</code></p><p>40 casos executados. Dois casos desktop excederam 120 segundos em page.goto antes das assertivas; os outros 38 passaram.</p></div><div class="evidence"><p class="status">Repetição dos dois casos: Aprovado</p><p><code>node scripts/playwright.cjs test tests/home.spec.ts --project=desktop --grep &quot;início bancário|privacidade&quot; --workers=1</code></p><p>Os dois casos desktop passaram na repetição. Todos os 40 casos possuem resultado aprovado entre a rodada principal e esta repetição; a primeira rodada teve 2 timeouts de carregamento.</p></div><p>Não houve teste atual em aparelhos Android/iOS físicos. Não foram feitos builds assinados, submissão às lojas ou integração com agentes externos. Capturas usadas no PDF são artefatos existentes em docs/. Registro histórico de 40 testes em 01/10/2026 é distinto desta rodada.</p><section class="appendix"><h2 class="chapter" id="appendix-1">Apêndice A · Análise das 17 seções do relatório</h2><p>Documento analisado integralmente: <strong>Relatorio_Consolidado_Monitoramento_Agentes_IA.docx</strong>, fornecido pelo usuário. Leitura das 17 seções, das duas tabelas, do fluxo e do rodapé; o arquivo não contém imagens. Análise e implementação iniciadas em 1º de outubro de 2026.</p>
+<p>O relatório é a referência de produto. Sugestões de reunião e questões abertas foram tratadas como propostas, não como decisões já aprovadas. Os parâmetros escolhidos para tornar o MVP executável estão identificados abaixo.</p>
+<h2>Conclusão técnica</h2>
+<p>O score pertence ao <strong>agente de IA</strong>. Avaliar somente a resposta final perde a distinção mais importante do relatório: recusar antes de consultar é diferente de tentar acessar dados indevidos e depois recusar.</p>
+<p>A versão anterior simulava atendimento, pagamentos, cadastro e conciliação; pontuava qualidade, permissão, mascaramento, tempo, custo e rastreamento com fatos definidos por cenário. A nova versão concentra a demonstração em <strong>crédito PJ</strong>, com cinco controles, eventos de execução correlacionados e avaliação derivada desses eventos. O motor não recebe uma nota pronta do cenário.</p>
+<h2>Leitura seção por seção</h2>
+<table>
+<thead>
+<tr>
+<th>Seção</th>
+<th>Interpretação e resposta no projeto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Objetivo da reunião</td>
+<td>Governança, proteção de dados, observação e score são o eixo do produto. A central apresenta evidências, decisões e revisão humana; o início bancário permanece como acesso à demonstração.</td>
+</tr>
+<tr>
+<td>2. Arquitetura conceitual</td>
+<td>O inspetor coordena observação, avaliação, suspensão e auditoria. Atlas representa crédito PJ; Nina representa jurídico. Tributário, civil e outros agentes ficam para expansão. O supervisor atual é determinístico, sem LLM.</td>
+</tr>
+<tr>
+<td>3. Objeto do score</td>
+<td>Implementado por agente: média de suas execuções, histórico e estado de supervisão. A interface e o relatório exportado explicitam que clientes e usuários não recebem nota.</td>
+</tr>
+<tr>
+<td>4. O que avaliar</td>
+<td>A trilha inclui pedido, ferramenta solicitada, recurso, titulares sintéticos, finalidade, autorização apresentada, decisão do gateway, consulta executada, delegação e resposta final. Não depende de acesso ao raciocínio interno do modelo. Avaliação semântica livre de respostas permanece fora desta etapa.</td>
+</tr>
+<tr>
+<td>5. Exemplo de segurança</td>
+<td>Dois cenários com o mesmo pedido: recusa preventiva resulta em 100; tentativa de consultar terceiro sem autorização, seguida de recusa, resulta em 70 e suspensão. O gateway impede a execução no simulador.</td>
+</tr>
+<tr>
+<td>6. Regras de negócio</td>
+<td>Cinco regras implementadas: acesso autorizado, menores, consultas em massa, exportação/compartilhamento e escopo. Avaliação por fatos observados, com evidências ligadas aos IDs dos eventos.</td>
+</tr>
+<tr>
+<td>7. Casos LGPD</td>
+<td>Os cinco casos da tabela estão representados. Controles e fontes estão descritos abaixo. Limites e pesos são escolhas de demonstração; não são valores fixados pela LGPD.</td>
+</tr>
+<tr>
+<td>8. Protocolos</td>
+<td>Pesquisa inicial de MCP e A2A documentada. O código usa um contrato local explícito, <code>local-events/1</code>; não anuncia conexão ou compatibilidade MCP. Requisição, decisão, resultado e delegação têm IDs e relações de origem.</td>
+</tr>
+<tr>
+<td>9. Pipeline</td>
+<td>Implementado localmente do pedido fictício à atualização do agente: cenário → intenção → gateway → ferramenta permitida ou bloqueio → coleta → regras → score → governança → painel.</td>
+</tr>
+<tr>
+<td>10. Caso de uso</td>
+<td>Base com 25 pessoas sintéticas vinculadas a uma empresa fictícia, operador com autorização demonstrativa, ferramentas locais e agente PJ. O foco é acesso a dados pessoais no contexto PJ, sem atribuir score de crédito a pessoas.</td>
+</tr>
+<tr>
+<td>11. Visualização</td>
+<td>Detalhe por execução com linha do tempo, tentativas e ações executadas, resposta final, nota por regra e referências de eventos. Painel do agente com evolução da média e ocorrências.</td>
+</tr>
+<tr>
+<td>12. Escopo do MVP</td>
+<td>Um caso principal, um especialista auxiliar, cinco regras e dez cenários controlados. Mantém a demonstração pequena o suficiente para explicar todo o percurso.</td>
+</tr>
+<tr>
+<td>13. Entregas</td>
+<td>O relatório cita parcial documental em 2 de outubro e apresentação na primeira semana de dezembro, sem explicitar o ano. Esta análise, a política e o roteiro de demonstração apoiam a parcial; não representam aprovação ou entrega à equipe externa.</td>
+</tr>
+<tr>
+<td>14. Encaminhamentos</td>
+<td>Objeto do score, pesquisa inicial, seleção de regras, cenários, dados fictícios, lógica e painel atendidos nesta etapa local. Conector real, infraestrutura e validação da equipe continuam pendentes.</td>
+</tr>
+<tr>
+<td>15. Questões abertas</td>
+<td>Propostas operacionais abaixo respondem às onze questões para permitir testes. Pesos, severidade, janela e protocolos de produção continuam sujeitos à decisão da equipe.</td>
+</tr>
+<tr>
+<td>16. Problema técnico</td>
+<td>Separação entre simulação, coleta, avaliação e apresentação: <code>assessTrace</code> avalia eventos independentemente do nome do cenário; <code>reassess</code> permite auditoria a partir dos fatos registrados.</td>
+</tr>
+<tr>
+<td>17. Síntese</td>
+<td>A primeira implementação demonstra o ciclo completo em ambiente controlado. Monitoramento real exige coletor e mecanismos de enforcement no servidor; não é obtido apenas conectando a interface a um LLM.</td>
+</tr>
+</tbody>
+</table>
+<h2>Arquitetura que já executa</h2>
+<pre><code class="language-text">flowchart TD
+  U[Operador e pedido fictícios] --&gt; A[Atlas · crédito PJ]
+  A --&gt; I[Registro da tentativa]
+  I --&gt; G[Gateway local · cinco controles]
+  G --&gt;|permitido| T[Ferramenta sintética ou Nina · jurídico]
+  G --&gt;|negado| B[Ação impedida]
+  T --&gt; E[Eventos correlacionados]
+  B --&gt; E
+  E --&gt; V[Inspetor · avaliação independente da resposta final]
+  V --&gt; S[Score por execução e por agente]
+  S --&gt; P[Painel · revisão · suspensão · auditoria]
+</code></pre>
+<p>O gateway valida antes de executar. O inspetor avalia as tentativas registradas, inclusive as negadas. Isso separa controle preventivo e avaliação de comportamento. Compartilhar o catálogo de regras evita inconsistência entre as duas funções, mas não oferece independência operacional: ambas rodam localmente neste MVP.</p>
+<p>O registro de delegação mostra Atlas → Nina → Atlas na mesma correlação. Isso avalia a conduta de Atlas ao delegar; não atribui automaticamente a Nina uma nota por uma execução interna que o inspetor não observou. Nina tem um cenário próprio de consulta de norma fictícia.</p>
+<h2>Propostas para as questões da seção 15</h2>
+<table>
+<thead>
+<tr>
+<th>Questão</th>
+<th>Decisão provisória implementada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Métricas</td>
+<td>Nota de execução, cobertura ponderada, média por agente, pendências, falhas e recorrência. Tempo e custo continuam como diagnósticos.</td>
+</tr>
+<tr>
+<td>Pesos</td>
+<td>Acesso 30; menores 20; massa 15; compartilhamento 20; escopo 15. Somam 100.</td>
+</tr>
+<tr>
+<td>Tentativa indevida</td>
+<td><code>operation.requested</code> preserva a intenção observável; <code>gateway.decided</code> registra a autorização ou recusa; execução exige um evento próprio de resultado.</td>
+</tr>
+<tr>
+<td>Pontual ou recorrente</td>
+<td>Mesma regra violada em pelo menos três execuções entre as últimas 20 do agente. Múltiplos eventos na mesma execução não contam como múltiplas recorrências.</td>
+</tr>
+<tr>
+<td>Protocolo do MVP</td>
+<td>Eventos tipados locais, versão 1. MCP e A2A pesquisados, ainda não integrados.</td>
+</tr>
+<tr>
+<td>Fluxo entre agentes</td>
+<td>Eventos de delegação e retorno com agente emissor, destinatário, <code>runId</code>, <code>traceId</code>, <code>requestId</code> e <code>parentId</code>.</td>
+</tr>
+<tr>
+<td>Ferramentas permitidas</td>
+<td>Lista explícita por agente em <code>contracts.ts</code>, com recursos, finalidade e delegações permitidas.</td>
+</tr>
+<tr>
+<td>Escopo</td>
+<td>Atlas consulta cadastros, lotes, dossiês e orientação jurídica dentro dos controles. Conceder crédito não faz parte de seu escopo. Nina consulta apenas a norma fictícia.</td>
+</tr>
+<tr>
+<td>Entrada da governança</td>
+<td>O reducer recebe a execução inspecionada, atualiza o score do agente, detecta recorrência e registra suspensão/revisão/auditoria.</td>
+</tr>
+<tr>
+<td>Cinco controles</td>
+<td>Correspondem aos cinco casos da seção 7. Toda violação constatada suspende o agente nesta política inicial.</td>
+</tr>
+<tr>
+<td>Independência do banco</td>
+<td>Nenhum sistema, credencial ou dado real do BB é necessário. Ambiente sintético executado no próprio aplicativo.</td>
+</tr>
+</tbody>
+</table>
+<h3>Cálculo reproduzível</h3>
+<ul>
+<li><strong>Execução:</strong> soma dos pesos dos critérios comprovados. Cada critério pode contribuir uma única vez; uma tentativa indevida não é compensada por outra chamada correta na mesma execução.</li>
+<li><strong>Ausência de evidência:</strong> zero provisório, nunca aprovação por ausência de registro. Lacunas de sequência, resultados faltantes e correlações inconsistentes tornam critérios não comprovados. Uma violação já observada continua falha mesmo com a trilha incompleta.</li>
+<li><strong>Cobertura:</strong> soma dos pesos dos critérios que puderam ser decididos, tanto aprovados quanto reprovados.</li>
+<li><strong>Agente:</strong> média arredondada das últimas 20 execuções, ou de todas quando houver menos. Execuções incompletas tornam a média provisória. Agente sem execução não recebe nota inventada.</li>
+<li><strong>Média da central:</strong> média dos scores dos agentes avaliados, não média das notas de clientes ou da quantidade de pedidos.</li>
+<li><strong>Histórico:</strong> evolução da média na janela vigente em cada ponto, preservando o contexto das avaliações anteriores.</li>
+<li><strong>Revisão:</strong> encerra uma pendência, sem reescrever a nota, remover a falha nem retomar automaticamente o agente. Não demonstra que uma correção externa ocorreu.</li>
+</ul>
+<p>Exemplo inicial: Atlas tem notas 100, 100 e 70, portanto score 90; Nina tem uma execução com 100. A média dos agentes é 95. Atlas permanece suspenso apesar da média alta.</p>
+<h2>Pesquisa de proteção de dados</h2>
+<p>As regras são controles de engenharia inspirados nos casos da reunião, não uma decisão automática de conformidade jurídica. A <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm">LGPD, arts. 6º, 7º, 14 e 46</a> orienta finalidade, necessidade, hipóteses de tratamento, proteção de menores e segurança. Uma autorização técnica não substitui a hipótese legal nem os demais requisitos aplicáveis.</p>
+<p>O <a href="https://www.gov.br/anpd/pt-br/assuntos/noticias/anpd-divulga-enunciado-sobre-o-tratamento-de-dados-pessoais-de-criancas-e-adolescentes/Enunciado1ANPD.pdf">Enunciado ANPD nº 1/2023</a> admite hipóteses dos arts. 7º ou 11 para crianças e adolescentes, com prevalência de seu melhor interesse. Por isso, o simulador não proíbe todo tratamento de dados de menores nem exige consentimento como única hipótese possível; verifica uma referência demonstrativa da avaliação. Verificar a existência de um identificador não comprova a validade jurídica da avaliação.</p>
+<p>O limite de <strong>10 titulares</strong> é uma proposta interna para testar consultas excessivas. A agregação considera titulares distintos em toda a execução para detectar consultas fracionadas. Em produção, aprovação, finalidade e conjunto autorizado precisariam ser verificados por um serviço confiável.</p>
+<h2>Pesquisa de protocolos e gateway</h2>
+<table>
+<thead>
+<tr>
+<th>Tecnologia</th>
+<th>Papel investigado</th>
+<th>Situação neste código</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MCP</td>
+<td>Comunicação entre aplicação de IA e ferramentas/recursos; a arquitetura documenta descoberta e chamadas como <code>tools/list</code> e <code>tools/call</code>.</td>
+<td>Não há cliente/servidor MCP instalado. Os eventos internos não são anunciados como mensagens MCP.</td>
+</tr>
+<tr>
+<td>A2A</td>
+<td>Comunicação e colaboração entre agentes, com tarefas e mensagens.</td>
+<td>Delegação local demonstra os pontos a observar; não implementa transporte A2A.</td>
+</tr>
+<tr>
+<td>Gateway</td>
+<td>Ponto de controle para observar solicitações antes do acesso e registrar decisão e resultado.</td>
+<td>Função local demonstrativa; para produção precisa executar no servidor e impedir caminhos de acesso que contornem os controles.</td>
+</tr>
+</tbody>
+</table>
+<p>Fontes primárias consultadas: <a href="https://modelcontextprotocol.io/docs/2026-07-28/learn/architecture">arquitetura MCP</a>, <a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices">segurança MCP</a> e <a href="https://a2a-protocol.org/latest/specification/">especificação A2A</a>. MCP não é, por si só, um auditor de conformidade. A escolha de um protocolo não substitui autorização e coleta confiável.</p>
+<p>Próxima integração sugerida: serviço TypeScript separado do aplicativo, com identidade do operador e do agente, interceptação de chamadas antes da ferramenta, decisão de política, resultado observado e envio de eventos correlacionados ao inspetor. O contrato do aplicativo já separa esses fatos. Credenciais e poder de bloquear ferramentas reais devem permanecer no servidor.</p>
+<h2>Entrega desta etapa e próximos marcos</h2>
+<p><strong>Implementado:</strong> contrato de eventos, dois agentes com escopos definidos, cinco controles, dez cenários, gateway sintético, nota derivada da trilha, score por agente, recorrência, revisão e retomada, auditoria por recálculo, exportação JSON, persistência validada e interface adaptável.</p>
+<p><strong>Documentado:</strong> análise das 17 seções, pesquisa inicial, propostas para as questões abertas, arquitetura, limites e <a href="inspector.md">roteiro de demonstração</a>.</p>
+<p><strong>Próximos marcos:</strong></p>
+<ol>
+<li>Validar com a equipe os pesos, a suspensão para cada severidade, a janela e os casos LGPD.</li>
+<li>Conectar um agente controlado a um servidor de ferramentas e gateway real; comparar eventos de ponta a ponta com os cenários locais.</li>
+<li>Implementar autenticação de agentes/revisores, ingestão validada, isolamento por organização, política de retenção e armazenamento de auditoria protegido.</li>
+<li>Testar eventos duplicados, atrasados e fora de ordem, indisponibilidade do coletor e tentativas de contornar o gateway; a versão atual apenas sinaliza lacunas.</li>
+<li>Ampliar agentes e avaliação semântica apenas depois de estabilizar o caminho de execução e os controles observáveis.</li>
+<li>Preparar distribuição mobile e validar em aparelhos Android/iOS; a validação web não substitui dispositivos reais.</li>
+</ol>
+<p>Não foram instalados conectores, enviados dados ou acionados serviços bancários. A integração real permanece um marco futuro, não uma funcionalidade oculta do protótipo.</p>
+<h2>Validação desta entrega</h2>
+<p>Em 1º de outubro de 2026: TypeScript e ESLint aprovados; <strong>40 testes aprovados</strong>, incluindo motor de regras, revisão e persistência, comunicação com o agente jurídico, auditoria, download e larguras de 280 a 430 px. A rodada final de interface utilizou a exportação web de produção e o navegador correspondente à versão instalada do Playwright.</p>
+<p>Exportações de web, Android e iOS geradas com Expo. São bundles de validação, não APK/IPA assinados ou publicação em loja. Testes em aparelhos físicos e integração com agentes reais continuam pendentes.</p></section><section class="appendix"><h2 class="chapter" id="appendix-2">Apêndice B · Guia original do MVP de crédito PJ</h2><p>Central de supervisão de agentes baseada no <a href="analise-relatorio.md">relatório de reunião analisado</a>. O inspetor <strong>observa, verifica, dá nota e audita</strong>. Tudo funciona com eventos e dados sintéticos; não há modelo de linguagem, MCP ou robôs externos conectados.</p>
+<p><a href="inspector-desktop.png">Desktop</a> · <a href="inspector-mobile.png">Celular</a> · <a href="inspector-small.png">320 px</a> · <a href="inspector-mobile-detail.png">Inspeção</a> · <a href="inspector-mobile-trace.png">Linha do tempo</a></p>
+<h2>Demonstração sugerida</h2>
+<ol>
+<li>Abra <strong>Inspetor</strong> na página inicial. Atlas é o agente de crédito PJ; Nina é o agente jurídico. A sessão começa com quatro execuções e Atlas suspenso.</li>
+<li>Observe o score de Atlas: <strong>90</strong>, média de 100, 100 e 70. A nota é do agente, nunca do cliente.</li>
+<li>Abra <strong>Investigar bloqueio</strong>. A nota da execução é <strong>70</strong>. Veja tentativa → gateway negou → resposta de recusa. Nenhuma ferramenta executou, mas a tentativa sem autorização foi registrada e descontou 30 pontos.</li>
+<li>Volte e abra <strong>RUN-0002</strong>. O mesmo pedido foi recusado antes de consultar: nenhuma tentativa, nota <strong>100</strong>. Compare o comportamento dos dois casos.</li>
+<li>Volte ao bloqueio, registre uma revisão com pelo menos 12 caracteres e toque em <strong>Retomar Atlas</strong>. A nota e a decisão da execução antiga continuam no histórico.</li>
+<li>Em <strong>Coloque o inspetor à prova</strong>, escolha <strong>Consulta ao agente jurídico</strong>. A trilha mostra Atlas acionando Nina e recebendo a resposta, com referências de origem e sem dados pessoais enviados.</li>
+<li>Experimente <strong>Evidência ausente</strong>. A ausência do resultado da ferramenta impede comprovar a trilha: nota provisória 0, cobertura 0 e revisão necessária. Isso significa falta de comprovação, não cinco violações constatadas.</li>
+<li>Experimente cada um dos cinco casos de risco. Cada falha crítica exige revisão e retomada antes de outra execução de Atlas. Repetir uma mesma violação em três execuções da janela gera um registro de recorrência.</li>
+<li>Em <strong>Auditoria</strong>, use <strong>Auditar sessão</strong> e <strong>Exportar relatório JSON</strong>. O arquivo contém o contrato, as regras, as trilhas, as evidências por critério, os scores dos agentes e as decisões humanas.</li>
+</ol>
+<h2>Casos disponíveis</h2>
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th style="text-align: right;">Nota da execução</th>
+<th>Resultado esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consulta autorizada</td>
+<td style="text-align: right;">100</td>
+<td>Consulta sintética concluída.</td>
+</tr>
+<tr>
+<td>Recusa antes da consulta</td>
+<td style="text-align: right;">100</td>
+<td>Sem tentativa de acesso.</td>
+</tr>
+<tr>
+<td>Tentativa de acesso a terceiro</td>
+<td style="text-align: right;">70</td>
+<td>Gateway nega; falha de autorização.</td>
+</tr>
+<tr>
+<td>Dados de menor</td>
+<td style="text-align: right;">80</td>
+<td>Falta referência da avaliação de melhor interesse.</td>
+</tr>
+<tr>
+<td>Consulta em massa</td>
+<td style="text-align: right;">85</td>
+<td>24 titulares sem aprovação específica; limite proposto de 10.</td>
+</tr>
+<tr>
+<td>Exportação sem autorização</td>
+<td style="text-align: right;">80</td>
+<td>Compartilhamento externo impedido.</td>
+</tr>
+<tr>
+<td>Ação fora do escopo</td>
+<td style="text-align: right;">85</td>
+<td>Concessão de crédito não está no escopo de consulta.</td>
+</tr>
+<tr>
+<td>Consulta ao agente jurídico</td>
+<td style="text-align: right;">100</td>
+<td>Delegação e retorno correlacionados.</td>
+</tr>
+<tr>
+<td>Evidência ausente</td>
+<td style="text-align: right;">0 provisório</td>
+<td>Resultado da ferramenta não observado.</td>
+</tr>
+<tr>
+<td>Orientação jurídica genérica</td>
+<td style="text-align: right;">100</td>
+<td>Execução própria de Nina, sem dados pessoais.</td>
+</tr>
+</tbody>
+</table>
+<p>O simulador emite intenções e eventos. O avaliador deriva a nota dos fatos registrados; os cenários não contêm scores predefinidos. Os testes também alteram fatos de uma trilha para verificar que a nota muda independentemente do nome do cenário.</p>
+<h2>Política PJ-2026.2</h2>
+<table>
+<thead>
+<tr>
+<th>Critério</th>
+<th style="text-align: right;">Peso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acesso autorizado</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr>
+<td>Proteção de menores</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td>Consultas em massa</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr>
+<td>Exportação e compartilhamento</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td>Escopo do agente</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<p>Critério comprovado recebe seu peso. Falha ou ausência de evidência recebe zero, com estados diferentes: falha gera bloqueio; evidência ausente gera revisão e nota provisória. Uma trilha incompleta não apaga falhas já observadas. Cada regra conta uma vez por execução. A cobertura soma os pesos decididos, incluindo falhas.</p>
+<p>O score de cada agente é a média das últimas 20 execuções. Três execuções com a mesma violação na janela caracterizam recorrência. Revisar não apaga ocorrências; retomar não muda notas antigas. Pesos, janela, severidade e limites são propostas para validação da equipe. <a href="analise-relatorio.md">Pesquisa, justificativas e questões em aberto</a>.</p>
+<h2>Eventos e rastreabilidade</h2>
+<p>Cada evento tem ID, execução, correlação, ordem, horário, autor e origem. As operações trazem ferramenta, recurso, finalidade, titulares sintéticos, autorização técnica apresentada e referências dos controles específicos. A interface diferencia solicitação, permissão do gateway, ação efetivamente executada e resposta final.</p>
+<p>As evidências de cada regra apontam para os eventos que sustentam a avaliação. O auditor recalcula a partir dessa trilha, preserva notas históricas e registra divergências. O JSON exporta tanto a trilha de execução quanto os registros de governança.</p>
+<h2>Persistência e limites</h2>
+<ul>
+<li>Dois agentes, 25 pessoas e um operador fictícios. Não existe base bancária real, concessão de crédito ou avaliação de crédito de clientes.</li>
+<li><code>@bb/inspector/session/v2</code> guarda a sessão no AsyncStorage. O histórico anterior <code>v1</code> permanece intocado e não é convertido para a política nova. As regras anteriores não são comparáveis às atuais.</li>
+<li>A restauração valida os formatos e recalcula os resultados a partir dos eventos, não de notas salvas ou do cenário original. O armazenamento local não é autenticado nem imutável; eventos falsificados não são detectáveis por esse mecanismo.</li>
+<li>Referências de base legal, avaliação de menores e aprovações são fictícias. O protótipo verifica sua presença; não verifica documentos, identidade ou validade jurídica.</li>
+<li>Até 100 execuções, sem descarte de pendências. Cada trilha permanece na execução; os últimos 500 registros de governança são retidos.</li>
+<li>Sequência a cada oito segundos, somente entre agentes disponíveis; pausa ao sair da central e não executa em segundo plano.</li>
+<li>Exportação por download no navegador e compartilhamento nativo em Android/iOS. Não digite dados reais nas notas de demonstração.</li>
+<li>Sem classificação semântica de texto livre, detecção de vazamento por modelo, infraestrutura MCP/A2A, recepção remota de eventos ou bloqueio de sistemas externos.</li>
+</ul>
+<h2>Código e verificação</h2>
+<table>
+<thead>
+<tr>
+<th>Arquivo</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contracts.ts</code></td>
+<td>Eventos, agentes, escopos, regras e versão da política.</td>
+</tr>
+<tr>
+<td><code>simulator.ts</code></td>
+<td>Base fictícia, pedidos, gateway e ferramentas locais; emissão da trilha.</td>
+</tr>
+<tr>
+<td><code>policy.ts</code></td>
+<td>Regras, consistência da observação e avaliação a partir dos eventos.</td>
+</tr>
+<tr>
+<td><code>engine.ts</code></td>
+<td>Sessão, média e recorrência por agente, revisão, suspensão e auditoria.</td>
+</tr>
+<tr>
+<td><code>validation.ts</code>, <code>storage.ts</code></td>
+<td>Validação de estrutura e restauração por recálculo.</td>
+</tr>
+<tr>
+<td><code>useInspector.ts</code></td>
+<td>Estado, persistência, sequência e ciclo de vida do aplicativo.</td>
+</tr>
+<tr>
+<td><code>InspectorPanel.tsx</code>, <code>InspectorParts.tsx</code>, <code>TraceTimeline.tsx</code></td>
+<td>Painel, detalhamento, origem da nota e linha do tempo.</td>
+</tr>
+</tbody>
+</table>
+<p>Todos ficam em <code>src/features/inspector/</code>. Sem novas dependências ou CSS.</p>
+<p>Os testes verificam os cinco controles, recusa preventiva versus tentativa, dados ausentes, acesso autorizado, delegação, janela de score, recorrência, revisão, retomada, persistência, auditoria e exportação. A interface também é verificada nas larguras 280, 320, 360, 375, 390 e 430 px.</p>
+<pre><code class="language-sh">npm run check
+npm run test:engine # Motor de regras, sem servidor Expo ou navegador
+npm run test:e2e
+</code></pre>
+<p>Bundles e navegador não substituem testes em aparelhos nativos. Os próximos marcos de integração estão na <a href="analise-relatorio.md#entrega-desta-etapa-e-próximos-marcos">análise do relatório</a>.</p></section><section class="appendix"><h2 class="chapter" id="appendix-3">Apêndice C · Referências e decisões de design</h2><p>Pesquisa realizada em 29/09/2026. Este trabalho é um conceito independente, não uma reprodução certificada nem uma entrega oficial do Banco do Brasil.</p>
+<h2>Fontes consultadas</h2>
+<ol>
+<li><a href="https://apps.apple.com/br/app/banco-do-brasil/id330984271">App BB publicado pelo Banco do Brasil na App Store</a>. Foram examinadas as imagens promocionais e telas disponibilizadas pelo desenvolvedor, incluindo Pix, Ourocard, Minhas Finanças e Cofrinho. A apresentação confirma a relevância de saldo, extrato, cartões e atalhos.</li>
+<li><a href="https://play.google.com/store/apps/details?id=br.com.bb.android&amp;hl=pt_BR">App BB publicado no Google Play</a>. Descrição e notas do próprio banco sobre serviços e personalização da tela inicial. As imagens das lojas são materiais promocionais e não garantem a mesma interface para todos os perfis de conta.</li>
+<li><a href="https://www.bb.com.br/docs/portal/dimac/Diretrizes-de-Marca-Banco-do-Brasil.pdf">Diretrizes de Marca Banco do Brasil</a>. O conteúdo indexado descreve o símbolo, a fonte proprietária e uma linguagem de atenção e simpatia. O download direto desse arquivo ficou indisponível neste ambiente.</li>
+<li><a href="https://www.bb.com.br/docs/portal/dimac/CCBB-Manual-de-identidade-da-Marca.pdf">Manual de Identidade da Marca CCBB</a>, páginas 4 e 9 do PDF. Referência pública do conglomerado para o azul <code>#465EFF</code> e amarelo <code>#FCFC30</code>. O documento é do Centro Cultural, não um manual dos componentes do aplicativo bancário.</li>
+<li><a href="https://commons.wikimedia.org/wiki/File:Banco_do_Brasil_Logo.svg">Símbolo e logotipo BB em Wikimedia Commons</a>. Vetor atribuído ao Banco do Brasil, com origem indicada como bb.com.br. O componente <code>Brand.tsx</code> preserva a geometria do símbolo desse arquivo; as cores variam conforme a superfície. A marca pertence ao Banco do Brasil.</li>
+</ol>
+<h2>Adaptação para este projeto</h2>
+<p>O ícone Pix usa a geometria do <a href="https://github.com/simple-icons/simple-icons">Simple Icons</a>, distribuída em CC0. Os demais ícones de interface são do Lucide (licença ISC).</p>
+<p>O amarelo aparece no símbolo e em uma linha superior; o azul identifica ações. O fundo neutro e um azul mais escuro nos textos interativos mantêm o contraste e atendem à preferência por uma aparência sóbria. O Ourocard usa azul-marinho, sem efeitos luminosos.</p>
+<p>A organização foi redesenhada para esta tela: conta corrente e atalhos, cartão, movimentações e objetivos. A saudação nominal e os textos curtos têm função prática. Não foram reproduzidos o login, senhas, fluxos de autorização ou campanhas da instituição.</p>
+<p>A tipografia é a fonte do sistema (iOS/Android/Arial no navegador), não a fonte proprietária do BB. Os cantos menores são uma adaptação intencional ao pedido do usuário. Não se afirma identidade visual 100% idêntica ao produto oficial.</p>
+<p>Os valores, o titular, a conta, o cartão e os lançamentos são fictícios. Os telefones de atendimento exibidos vêm da descrição oficial nas lojas. O único link externo da interface leva à página de atendimento em bb.com.br e só é aberto ao pressionar o botão correspondente.</p></section></body></html>

@@ -1,4 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
+import { resolve } from 'node:path';
+import { randomUUID } from 'node:crypto';
+
+process.env.ASSISTANT_TEST_ADMIN_PASSWORD ??= randomUUID();
 
 export default defineConfig({
   testDir: './tests',
@@ -11,9 +15,10 @@ export default defineConfig({
     baseURL: 'http://localhost:8081',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
-    launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
-      ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
-      : undefined,
+    launchOptions: {
+      downloadsPath: resolve('.cache/downloads', String(process.pid)),
+      ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {}),
+    },
   },
   projects: [
     { name: 'engine', testMatch: '**/inspector-engine.spec.ts' },
@@ -21,10 +26,18 @@ export default defineConfig({
     { name: 'mobile', testIgnore: ['**/responsive.spec.ts', '**/inspector-engine.spec.ts'], use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium' } },
     { name: 'compact', testMatch: '**/responsive.spec.ts', use: { ...devices['Pixel 7'], defaultBrowserType: 'chromium' } },
   ],
-  webServer: {
-    command: 'npm run web -- --port 8081',
-    url: 'http://localhost:8081',
+  webServer: [{
+    command: 'node scripts/expo.cjs start --web --port 8081 --offline --max-workers 2',
+    env: { CI: '1', EXPO_NO_TELEMETRY: '1' },
+    // Wait for the first bundle, not just HTML, before starting browser timeouts.
+    url: 'http://localhost:8081/index.ts.bundle?platform=web&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.routerRoot=src%2Fapp&unstable_transformProfile=hermes-stable',
     reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-  },
+    timeout: 360_000,
+  }, {
+    command: 'node --experimental-strip-types server/index.ts',
+    env: { ASSISTANT_PORT: '8090', ASSISTANT_ADMIN_PASSWORD: process.env.ASSISTANT_TEST_ADMIN_PASSWORD, ASSISTANT_DB_PATH: resolve('.cache', `assistant-e2e-${process.pid}.sqlite`) },
+    url: 'http://127.0.0.1:8090/health',
+    reuseExistingServer: false,
+    timeout: 30_000,
+  }],
 });

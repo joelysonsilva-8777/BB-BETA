@@ -12,7 +12,9 @@ export async function exportReport(state: InspectorState) {
     document.body.appendChild(link);
     link.click();
     link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // The browser may consume the Blob asynchronously after the click. Keep it
+    // available while a slower device prepares the download, then release it.
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
     return 'Relatório JSON gerado para download.';
   }
   const result = await Share.share({ title: report.title, message: content });
